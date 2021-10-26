@@ -8,23 +8,15 @@ import {
     UncontrolledDropdown,
     DropdownToggle,
     Media,
-    Pagination,
-    PaginationItem,
-    PaginationLink,
-    // Progress,
     Table,
     Container,
     Row,
     Button,
     FormGroup,
-    // Form,
     Input,
-    // InputGroupAddon,
-    // InputGroupText,
     InputGroup,
-    // UncontrolledTooltip,
   } from "reactstrap";
-  // core components
+  
   import Header from "components/Headers/Header.js";
   import axios from 'axios';
   import React, { Component } from "react";
@@ -33,6 +25,8 @@ import {
   import NumberFormat from 'react-number-format';
   import 'bootstrap/dist/css/bootstrap.min.css';
   import {Modal} from 'react-bootstrap';
+  import ReactPaginate from 'react-paginate';
+  import "../../assets/css/pagination-style.css";
 
     const buttonStyle = {
         marginBottom: 10,
@@ -43,54 +37,66 @@ import {
             super(props)
             this.state = {
                 car_types: [],
-                links: [],
-                show: false,
+                add_modal_show: false,
+                edit_modal_show: false,
+                id: "",
                 name: "",
                 price: "",
                 description: "",
-            }
-        }
-        modalShow(){
-            this.setState({show: true});
-        }
-        modalHide(){
-            this.setState({show: false});
+                offset: 0,
+                data: [],
+                perPage: 0,
+                currentPage: 0,
+                page: "",
+            };
+            this.handlePageClick = this.handlePageClick.bind(this);
         }
         clearState(){
             const initialState = {
+                id: "",
                 name: "",
                 price: "",
                 description: "",
               };
               this.setState({ ...initialState });
         }
-        
-        
+
+        handlePageClick = (e) => {
+            const selectedPage = e.selected;
+            const offset = selectedPage * this.state.perPage;
+            var x = parseInt(selectedPage) + 1;
+    
+            this.setState({
+                currentPage: selectedPage,
+                offset: offset,
+                page: "?page="+x
+            }, () => {
+                this.getData()
+            });
+    
+        };
         getData(){
+            // console.log(this.state.page);
             Swal.fire({
                 title: 'Memuat',
                 allowOutsideClick: false,
                 showConfirmButton: false
             })
-            axios.get(baseURL+'car_type', {
+            axios.get(baseURL+'car_type'+this.state.page, {
                 headers: {
                     Authorization: 'Bearer ' + JSON.parse(localStorage.getItem('data')).token
                 }
             })
             .then(response => {
-                // console.log(JSON.stringify(response.data['data']));
-                var res = JSON.stringify(response.data['links']);
-                var loop = JSON.parse(res);
-                var link_true = [];
-                for(const prop in loop){
-                    if(loop[prop].label != 'Next &raquo;' && loop[prop].label != '&laquo; Previous'){
-                        link_true.push(loop[prop]);
-                    }
-                }
-                this.setState({car_types: response.data['data']})
-                this.setState({links: link_true})
+                // console.log(JSON.stringify(response.data));
+                var all_data = JSON.stringify(response.data);
+                var data_json = JSON.parse(all_data);
+                this.setState({
+                    pageCount: Math.ceil(data_json.total / data_json.per_page),
+                    perPage: data_json.per_page,
+                    car_types: response.data['data']
+                })
                 Swal.close()
-                // console.log(link_true);
             })
             .catch(error => {
                 // console.log(error)
@@ -102,44 +108,43 @@ import {
                   })
             })
         }
-
-        paginationRun(link) {
+        componentDidMount(){
+            this.getData()
+        }
+        showMore(id){
             Swal.fire({
-                title: 'Memuat',
+                title: 'Mengambil Data',
                 allowOutsideClick: false,
                 showConfirmButton: false
             })
-            axios.get(link, {
+            
+            axios.get(baseURL+'car_type?id='+id, {
                 headers: {
                     Authorization: 'Bearer ' + JSON.parse(localStorage.getItem('data')).token
                 }
             })
             .then(response => {
-                // console.log(JSON.stringify(response.data['data']));
-                var res = JSON.stringify(response.data['links']);
-                var loop = JSON.parse(res);
-                var link_true = [];
-                for(const prop in loop){
-                    if(loop[prop].label != 'Next &raquo;' && loop[prop].label != '&laquo; Previous'){
-                        link_true.push(loop[prop]);
-                    }
-                }
-                this.setState({car_types: response.data['data']})
-                this.setState({links: link_true})
-                Swal.close()
+                // console.log(JSON.stringify(response.data));
+                var string = JSON.stringify(response.data);
+                var res = JSON.parse(string);
+                Swal.close();
+                this.setState({
+                    id: res['data']['id'],
+                    name: res['data']['name'],
+                    price: res['data']['price'],
+                    description: res['data']['description'],
+                    edit_modal_show: true,
+                });
             })
             .catch(error => {
-                // console.log(error)
+                // console.log(error.response.data.response.message.indonesia)
                 Swal.fire({
-                    title: 'Oops! Tidak Ada Data Lagi',
+                    title: 'Oops! Sepertinya ada yang salah',
+                    text: error.response.data.response.message.indonesia,
                     icon: 'error'
                 })
             })
         }
-        componentDidMount(){
-            this.getData()
-        }
-
         addCarType(){
             if(this.state.name === ""){
                 Swal.fire('Nama Tidak Boleh Kosong')
@@ -162,7 +167,7 @@ import {
                 })
                 .then(response => {
                     // console.log(JSON.stringify(response.data['data']));
-                    this.setState({show:false})
+                    this.setState({add_modal_show:false})
                     Swal.fire({
                         title: response.data['response']['message']['indonesia'],
                         icon: 'success'
@@ -181,6 +186,47 @@ import {
                 })
             }
         }
+        editCarType(){
+            if(this.state.name === ""){
+                Swal.fire('Nama Tidak Boleh Kosong')
+            }else if(this.state.price === ""){
+                Swal.fire('Harga Tidak Boleh Kosong')
+            }else{
+                Swal.fire({
+                    title: 'Memperbaharui Tipe Kendaraan',
+                    allowOutsideClick: false,
+                    showConfirmButton: false
+                })
+                const formData = new FormData();
+                formData.append('name', this.state.name);
+                formData.append('price', this.state.price);
+                formData.append('description', this.state.description);
+                axios.post(baseURL+'car_type/update/'+this.state.id, formData, {
+                    headers: {
+                        Authorization: 'Bearer ' + JSON.parse(localStorage.getItem('data')).token
+                    }
+                })
+                .then(response => {
+                    // console.log(JSON.stringify(response.data['data']));
+                    this.setState({edit_modal_show:false})
+                    Swal.fire({
+                        title: response.data['response']['message']['indonesia'],
+                        icon: 'success'
+                    })
+                    this.clearState()
+                    this.getData()
+                    
+                })
+                .catch(error => {
+                    // console.log(error.response.data.response.message.indonesia)
+                    Swal.fire({
+                        title: 'Oops! Sepertinya ada yang salah',
+                        text: error.response.data.response.message.indonesia,
+                        icon: 'error'
+                    })
+                })
+            }
+        }
 
         render() {
             return (
@@ -190,13 +236,13 @@ import {
                     <Button
                         style={buttonStyle}
                         color="warning"
-                        onClick={() => this.setState({show: true})}
+                        onClick={() => this.setState({add_modal_show: true})}
                     >
                         Tambah Tipe Kendaraan
                     </Button>
 
 
-                    <Modal show={this.state.show} onHide={() => this.setState({show: false})} centered>
+                    <Modal show={this.state.add_modal_show} onHide={() => this.setState({add_modal_show: false})} centered>
                         <Modal.Header closeButton>
                             <Modal.Title>Tambah Tipe Kendaraan</Modal.Title>
                         </Modal.Header>
@@ -223,7 +269,8 @@ import {
                                     <InputGroup className="input-group-alternative">
                                     <Input
                                         placeholder="Deskripsi Tipe Kendaraan (optional)"
-                                        type="text"
+                                        type="textarea"
+                                        rows="4"
                                         onChange={(e) => this.setState({description: e.target.value})}
                                     />
                                     </InputGroup>
@@ -231,6 +278,49 @@ import {
                                 
                                 <div className="text-center">
                                     <button onClick={this.addCarType.bind(this)} className="btn btn-primary">Tambah</button>
+                                </div>
+                        </Modal.Body>
+                    </Modal>
+
+                    <Modal show={this.state.edit_modal_show} onHide={() => this.setState({edit_modal_show: false})} centered>
+                        <Modal.Header closeButton>
+                            <Modal.Title>Detail Tipe Kendaraan</Modal.Title>
+                        </Modal.Header>
+                        <Modal.Body>
+                                <FormGroup className="mb-3">
+                                    <InputGroup className="input-group-alternative">
+                                    <Input
+                                        placeholder="Nama Tipe Kendaraan"
+                                        type="text"
+                                        value={this.state.name}
+                                        onChange={(e) => this.setState({name: e.target.value})}
+                                    />
+                                    </InputGroup>
+                                </FormGroup>
+                                <FormGroup className="mb-3">
+                                    <InputGroup className="input-group-alternative">
+                                    <Input
+                                        placeholder="Harga Tipe Kendaraan"
+                                        type="number"
+                                        value={this.state.price}
+                                        onChange={(e) => this.setState({price: e.target.value})}
+                                    />
+                                    </InputGroup>
+                                </FormGroup>
+                                <FormGroup className="mb-3">
+                                    <InputGroup className="input-group-alternative">
+                                    <Input
+                                        placeholder="Deskripsi Tipe Kendaraan (optional)"
+                                        type="textarea"
+                                        row="4"
+                                        value={this.state.description}
+                                        onChange={(e) => this.setState({description: e.target.value})}
+                                    />
+                                    </InputGroup>
+                                </FormGroup>
+                                
+                                <div className="text-center">
+                                    <button onClick={this.editCarType.bind(this)} className="btn btn-primary">Edit</button>
                                 </div>
                         </Modal.Body>
                     </Modal>
@@ -275,9 +365,7 @@ import {
                                                     allowNegative={true} />
                                             </td>
                                             <td>
-                                            <Badge color="" className="badge-dot mr-4">
                                                 {car_type.description}
-                                            </Badge>
                                             </td>
                                             <td className="text-right">
                                             <UncontrolledDropdown>
@@ -294,7 +382,7 @@ import {
                                                 <DropdownMenu className="dropdown-menu-arrow" right>
                                                 <DropdownItem
                                                     href="#pablo"
-                                                    onClick={(e) => e.preventDefault()}
+                                                    onClick={(e) => this.showMore(car_type.id)}
                                                 >
                                                     Edit
                                                 </DropdownItem>
@@ -314,41 +402,18 @@ import {
                         </Table>
                         <CardFooter className="py-4">
                             <nav aria-label="...">
-                            <Pagination
-                                className="pagination justify-content-end mb-0"
-                                listClassName="justify-content-end mb-0"
-                            >
-                                <PaginationItem className="disabled">
-                                    <PaginationLink
-                                        href="#pablo"
-                                        onClick={(e) => e.preventDefault()}
-                                        tabIndex="-1"
-                                    >
-                                        <i className="fas fa-angle-left" />
-                                        <span className="sr-only">Previous</span>
-                                    </PaginationLink>
-                                </PaginationItem>
-                                {this.state.links.map(link => 
-                                (
-                                    <PaginationItem>
-                                        <PaginationLink
-                                            onClick={() => this.paginationRun(link.url)}
-                                        >
-                                            {link.label}
-                                        </PaginationLink>
-                                    </PaginationItem>
-                                )) }
-                                <PaginationItem>
-                                    <PaginationLink
-                                        href="#pablo"
-                                        onClick={(e) => e.preventDefault()}
-                                    >
-                                        <i className="fas fa-angle-right" />
-                                        <span className="sr-only">Next</span>
-                                    </PaginationLink>
-                                </PaginationItem>
-                                
-                            </Pagination>
+                            <ReactPaginate
+                                    previousLabel={"prev"}
+                                    nextLabel={"next"}
+                                    breakLabel={"..."}
+                                    breakClassName={"break-me"}
+                                    pageCount={this.state.pageCount}
+                                    marginPagesDisplayed={1}
+                                    pageRangeDisplayed={2}
+                                    onPageChange={this.handlePageClick}
+                                    containerClassName={"justify-content-center pagination"}
+                                    subContainerClassName={"pages pagination"}
+                                    activeClassName={"active"}/>
                             </nav>
                         </CardFooter>
                         </Card>
