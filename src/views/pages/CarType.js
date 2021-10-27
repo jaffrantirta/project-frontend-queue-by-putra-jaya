@@ -48,6 +48,8 @@ import {
                 perPage: 0,
                 currentPage: 0,
                 page: "",
+                total: 0,
+                desc_short: "",
             };
             this.handlePageClick = this.handlePageClick.bind(this);
         }
@@ -94,7 +96,8 @@ import {
                 this.setState({
                     pageCount: Math.ceil(data_json.total / data_json.per_page),
                     perPage: data_json.per_page,
-                    car_types: response.data['data']
+                    car_types: response.data['data'],
+                    total: response.data['total'],
                 })
                 Swal.close()
             })
@@ -103,13 +106,56 @@ import {
                 Swal.close()
                 Swal.fire({
                     title: 'Oops! Sepertinya ada yang salah',
-                    text: error.response.data.response.message.indonesia,
+                    text: error,
                     icon: 'error'
                   })
             })
         }
         componentDidMount(){
             this.getData()
+        }
+        confirmDelete(name, id){
+            Swal.fire({
+                title: 'Yakin Menghapus "'+name+'" ?',
+                showCancelButton: true,
+                confirmButtonColor: '#ff2a00',
+                confirmButtonText: 'Ya, Hapus'
+            }).then((result) => {
+                if (result.isConfirmed) {
+                  this.deleteData(name, id)
+                }
+            })
+        }
+        deleteData(name, id){
+            Swal.fire({
+                title: 'Manghapus "'+name+'"',
+                allowOutsideClick: false,
+                showConfirmButton: false
+            })
+            
+            axios.delete(baseURL+'car_type/delete/'+id, {
+                headers: {
+                    Authorization: 'Bearer ' + JSON.parse(localStorage.getItem('data')).token
+                }
+            })
+            .then(response => {
+                // console.log(JSON.stringify(response.data));
+                var string = JSON.stringify(response.data);
+                var res = JSON.parse(string);
+                Swal.fire({
+                    title: res['response']['message']['indonesia'],
+                    icon: 'success'
+                })
+                this.getData();
+            })
+            .catch(error => {
+                // console.log(error.response.data.response.message.indonesia)
+                Swal.fire({
+                    title: 'Oops! Sepertinya ada yang salah',
+                    text: error,
+                    icon: 'error'
+                })
+            })
         }
         showMore(id){
             Swal.fire({
@@ -177,7 +223,7 @@ import {
                     
                 })
                 .catch(error => {
-                    console.log(error.response.data.response.message.indonesia)
+                    // console.log(error.response.data.response.message.indonesia)
                     Swal.fire({
                         title: 'Oops! Sepertinya ada yang salah',
                         text: error.response.data.response.message.indonesia,
@@ -227,7 +273,13 @@ import {
                 })
             }
         }
-
+        short_desc(desc){
+            if(desc.length >= 20){
+                return desc.substring(0, 20) + '...';   
+            }else{
+                return desc;
+            }
+        }
         render() {
             return (
                 <>
@@ -331,7 +383,7 @@ import {
                     <div className="col">
                         <Card className="shadow">
                         <CardHeader className="border-0">
-                            <h3 className="mb-0">List Tipe Kendaraan</h3>
+                            <h3 className="mb-0">{this.state.total} Tipe Kendaraan</h3>
                         </CardHeader>
                         <Table className="align-items-center table-flush" responsive>
                             <thead className="thead-light">
@@ -365,17 +417,18 @@ import {
                                                     allowNegative={true} />
                                             </td>
                                             <td>
-                                                {car_type.description}
+                                                {this.short_desc(car_type.description)}
+                                                {/* {this.state.desc_short} */}
                                             </td>
                                             <td className="text-right">
                                             <UncontrolledDropdown>
                                                 <DropdownToggle
-                                                className="btn-dark text-light"
-                                                href="#pablo"
-                                                role="button"
-                                                size="md"
-                                                color=""
-                                                onClick={(e) => e.preventDefault()}
+                                                    className="btn-dark text-light"
+                                                    href="#pablo"
+                                                    role="button"
+                                                    size="md"
+                                                    color=""
+                                                    onClick={(e) => e.preventDefault()}
                                                 >
                                                 <i className="fas fa-ellipsis-v" />
                                                 </DropdownToggle>
@@ -388,7 +441,7 @@ import {
                                                 </DropdownItem>
                                                 <DropdownItem
                                                     href="#pablo"
-                                                    onClick={(e) => e.preventDefault()}
+                                                    onClick={(e) => this.confirmDelete(car_type.name, car_type.id)}
                                                 >
                                                     Hapus
                                                 </DropdownItem>
