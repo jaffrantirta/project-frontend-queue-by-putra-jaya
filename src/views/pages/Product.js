@@ -27,9 +27,14 @@ import {
   import {Modal} from 'react-bootstrap';
   import ReactPaginate from 'react-paginate';
   import "../../assets/css/pagination-style.css";
+  import DropdownButton from 'react-bootstrap/DropdownButton';
+  import Dropdown from 'react-bootstrap/Dropdown';
 
     const buttonStyle = {
         marginBottom: 10,
+    };
+    const buttonAddStyle = {
+        marginTop: 10,
     };
 
     export default class javascriptMap extends Component {
@@ -37,12 +42,14 @@ import {
             super(props)
             this.state = {
                 datas: [],
+                group_products: [],
                 add_modal_show: false,
                 edit_modal_show: false,
                 id: "",
                 name: "",
                 price: "",
-                description: "",
+                group_product_id: "",
+                group_product_name: "",
                 offset: 0,
                 data: [],
                 perPage: 0,
@@ -50,6 +57,7 @@ import {
                 page: "",
                 total: 0,
                 desc_short: "",
+                group_product_title: "Pilih Grup",
             };
             this.handlePageClick = this.handlePageClick.bind(this);
         }
@@ -58,7 +66,8 @@ import {
                 id: "",
                 name: "",
                 price: "",
-                description: "",
+                group_product_id: "",
+                group_product_name: "",
               };
               this.setState({ ...initialState });
         }
@@ -84,19 +93,33 @@ import {
                 allowOutsideClick: false,
                 showConfirmButton: false
             })
-            axios.get(baseURL+'api/car_type'+this.state.page, {
+            axios.get(baseURL+'api/product'+this.state.page, {
                 headers: {
                     Authorization: 'Bearer ' + JSON.parse(localStorage.getItem('data')).token
                 }
             })
             .then(response => {
-                // console.log(JSON.stringify(response.data));
+                // console.log(JSON.stringify(response.data['data']));
                 var all_data = JSON.stringify(response.data);
                 var data_json = JSON.parse(all_data);
+                var data_array = [];
+                var i = 0;
+                data_json['data'].forEach(element => {
+                    // console.log(element.name);
+                    var product_complete = [];
+                    product_complete['id'] = element.id;
+                    product_complete['price'] = element.price;
+                    product_complete['name'] = element.name;
+                    product_complete['group_product_id'] = element.group_product.id;
+                    product_complete['group_product_name'] = element.group_product.name;
+                    data_array[i] = product_complete;
+                    i++;
+                });
+                // console.log(data_array);
                 this.setState({
                     pageCount: Math.ceil(data_json.total / data_json.per_page),
                     perPage: data_json.per_page,
-                    datas: response.data['data'],
+                    datas: data_array,
                     total: response.data['total'],
                 })
                 Swal.close()
@@ -113,6 +136,7 @@ import {
         }
         componentDidMount(){
             this.getData()
+            this.getGroupProducts()
         }
         confirmDelete(name, id){
             Swal.fire({
@@ -133,7 +157,7 @@ import {
                 showConfirmButton: false
             })
             
-            axios.delete(baseURL+'api/car_type/delete/'+id, {
+            axios.delete(baseURL+'api/product/delete/'+id, {
                 headers: {
                     Authorization: 'Bearer ' + JSON.parse(localStorage.getItem('data')).token
                 }
@@ -152,7 +176,6 @@ import {
                 // console.log(error.response.data.response.message.indonesia)
                 Swal.fire({
                     title: 'Oops! Sepertinya ada yang salah',
-                    text: error,
                     icon: 'error'
                 })
             })
@@ -164,7 +187,7 @@ import {
                 showConfirmButton: false
             })
             
-            axios.get(baseURL+'api/car_type?id='+id, {
+            axios.get(baseURL+'api/product?id='+id, {
                 headers: {
                     Authorization: 'Bearer ' + JSON.parse(localStorage.getItem('data')).token
                 }
@@ -174,16 +197,12 @@ import {
                 var string = JSON.stringify(response.data);
                 var res = JSON.parse(string);
                 Swal.close();
-                if(res['data']['description'] == null){
-                    var desc = "";
-                }else{
-                    var desc = res['data']['description'];
-                }
                 this.setState({
                     id: res['data']['id'],
                     name: res['data']['name'],
                     price: res['data']['price'],
-                    description: desc,
+                    group_product_id: res['data']['group_product_id'],
+                    group_product_title: res['data']['group_product']['name'],
                     edit_modal_show: true,
                 });
             })
@@ -201,17 +220,19 @@ import {
                 Swal.fire('Nama Tidak Boleh Kosong')
             }else if(this.state.price === ""){
                 Swal.fire('Harga Tidak Boleh Kosong')
+            }else if(this.state.group_product_id === ""){
+                Swal.fire('Grup Produk Harus Dipilih')
             }else{
                 Swal.fire({
-                    title: 'Menambahkan Tipe Kendaraan',
+                    title: 'Menambahkan Produk',
                     allowOutsideClick: false,
                     showConfirmButton: false
                 })
                 const formData = new FormData();
                 formData.append('name', this.state.name);
                 formData.append('price', this.state.price);
-                formData.append('description', this.state.description);
-                axios.post(baseURL+'api/car_type/add', formData, {
+                formData.append('group_product_id', this.state.group_product_id);
+                axios.post(baseURL+'api/product/add', formData, {
                     headers: {
                         Authorization: 'Bearer ' + JSON.parse(localStorage.getItem('data')).token
                     }
@@ -242,17 +263,19 @@ import {
                 Swal.fire('Nama Tidak Boleh Kosong')
             }else if(this.state.price === ""){
                 Swal.fire('Harga Tidak Boleh Kosong')
+            }else if(this.state.group_product_id === ""){
+                Swal.fire('Grup Produk Harus Dipilih')
             }else{
                 Swal.fire({
-                    title: 'Memperbaharui Tipe Kendaraan',
+                    title: 'Memperbaharui Produk',
                     allowOutsideClick: false,
                     showConfirmButton: false
                 })
                 const formData = new FormData();
                 formData.append('name', this.state.name);
                 formData.append('price', this.state.price);
-                formData.append('description', this.state.description);
-                axios.post(baseURL+'api/car_type/update/'+this.state.id, formData, {
+                formData.append('group_product_id', this.state.group_product_id);
+                axios.post(baseURL+'api/product/update/'+this.state.id, formData, {
                     headers: {
                         Authorization: 'Bearer ' + JSON.parse(localStorage.getItem('data')).token
                     }
@@ -272,7 +295,6 @@ import {
                     // console.log(error.response.data.response.message.indonesia)
                     Swal.fire({
                         title: 'Oops! Sepertinya ada yang salah',
-                        text: error.response.data.response.message.indonesia,
                         icon: 'error'
                     })
                 })
@@ -289,6 +311,36 @@ import {
                 return desc;
             }
         }
+        getGroupProducts(){
+            Swal.fire({
+                title: 'Mengambil Data',
+                allowOutsideClick: false,
+                showConfirmButton: false
+            })
+            
+            axios.get(baseURL+'api/group_product?all=true', {
+                headers: {
+                    Authorization: 'Bearer ' + JSON.parse(localStorage.getItem('data')).token
+                }
+            })
+            .then(response => {
+                // console.log(JSON.stringify(response.data));
+                var string = JSON.stringify(response.data);
+                var res = JSON.parse(string);
+                Swal.close();
+                this.setState({
+                    group_products: res['data'],
+                });
+            })
+            .catch(error => {
+                // console.log(error.response.data.response.message.indonesia)
+                Swal.fire({
+                    title: 'Oops! Sepertinya ada yang salah',
+                    text: error,
+                    icon: 'error'
+                })
+            })
+        }
         render() {
             return (
                 <>
@@ -299,19 +351,19 @@ import {
                         color="warning"
                         onClick={() => this.setState({add_modal_show: true})}
                     >
-                        Tambah Tipe Kendaraan
+                        Tambah Produk
                     </Button>
 
 
                     <Modal show={this.state.add_modal_show} onHide={() => this.setState({add_modal_show: false})} centered>
                         <Modal.Header closeButton>
-                            <Modal.Title>Tambah Tipe Kendaraan</Modal.Title>
+                            <Modal.Title>Tambah Produk</Modal.Title>
                         </Modal.Header>
                         <Modal.Body>
                                 <FormGroup className="mb-3">
                                     <InputGroup className="input-group-alternative">
                                     <Input
-                                        placeholder="Nama Tipe Kendaraan"
+                                        placeholder="Nama Produk"
                                         type="text"
                                         onChange={(e) => this.setState({name: e.target.value})}
                                     />
@@ -320,24 +372,23 @@ import {
                                 <FormGroup className="mb-3">
                                     <InputGroup className="input-group-alternative">
                                     <Input
-                                        placeholder="Harga Tipe Kendaraan"
+                                        placeholder="Harga Produk"
                                         type="number"
                                         onChange={(e) => this.setState({price: e.target.value})}
                                     />
                                     </InputGroup>
                                 </FormGroup>
-                                <FormGroup className="mb-3">
-                                    <InputGroup className="input-group-alternative">
-                                    <Input
-                                        placeholder="Deskripsi Tipe Kendaraan (optional)"
-                                        type="textarea"
-                                        rows="4"
-                                        onChange={(e) => this.setState({description: e.target.value})}
-                                    />
-                                    </InputGroup>
-                                </FormGroup>
+                                <DropdownButton id="dropdown-variants-Secondary" title={this.state.group_product_title}>
+                                    {this.state.group_products.map(g => (
+                                        <Dropdown.Item onClick={() => this.setState({
+                                            group_product_id: g.id,
+                                            group_product_title: g.name,
+                                            })}
+                                        >{g.name}</Dropdown.Item>
+                                    ))}
+                                </DropdownButton>
                                 
-                                <div className="text-center">
+                                <div style={buttonAddStyle} className="text-center">
                                     <button onClick={this.insertData.bind(this)} className="btn btn-primary">Tambah</button>
                                 </div>
                         </Modal.Body>
@@ -345,13 +396,13 @@ import {
 
                     <Modal show={this.state.edit_modal_show} onHide={() => this.setState({edit_modal_show: false})} centered>
                         <Modal.Header closeButton>
-                            <Modal.Title>Detail Tipe Kendaraan</Modal.Title>
+                            <Modal.Title>Detail Produk</Modal.Title>
                         </Modal.Header>
                         <Modal.Body>
                                 <FormGroup className="mb-3">
                                     <InputGroup className="input-group-alternative">
                                     <Input
-                                        placeholder="Nama Tipe Kendaraan"
+                                        placeholder="Nama Produk"
                                         type="text"
                                         value={this.state.name}
                                         onChange={(e) => this.setState({name: e.target.value})}
@@ -361,24 +412,22 @@ import {
                                 <FormGroup className="mb-3">
                                     <InputGroup className="input-group-alternative">
                                     <Input
-                                        placeholder="Harga Tipe Kendaraan"
+                                        placeholder="Harga Produk"
                                         type="number"
                                         value={this.state.price}
                                         onChange={(e) => this.setState({price: e.target.value})}
                                     />
                                     </InputGroup>
                                 </FormGroup>
-                                <FormGroup className="mb-3">
-                                    <InputGroup className="input-group-alternative">
-                                    <Input
-                                        placeholder="Deskripsi Tipe Kendaraan (optional)"
-                                        type="textarea"
-                                        row="4"
-                                        value={this.state.description}
-                                        onChange={(e) => this.setState({description: e.target.value})}
-                                    />
-                                    </InputGroup>
-                                </FormGroup>
+                                <DropdownButton id="dropdown-variants-Secondary" title={this.state.group_product_title}>
+                                    {this.state.group_products.map(g => (
+                                        <Dropdown.Item onClick={() => this.setState({
+                                            group_product_id: g.id,
+                                            group_product_title: g.name,
+                                            })}
+                                        >{g.name}</Dropdown.Item>
+                                    ))}
+                                </DropdownButton>
                                 
                                 <div className="text-center">
                                     <button onClick={this.updateData.bind(this)} className="btn btn-primary">Edit</button>
@@ -392,14 +441,14 @@ import {
                     <div className="col">
                         <Card className="shadow">
                         <CardHeader className="border-0">
-                            <h3 className="mb-0">{this.state.total} Tipe Kendaraan</h3>
+                            <h3 className="mb-0">{this.state.total} Produk</h3>
                         </CardHeader>
                         <Table className="align-items-center table-flush" responsive>
                             <thead className="thead-light">
                                 <tr>
                                     <th scope="col">Nama</th>
                                     <th scope="col">Harga</th>
-                                    <th scope="col">Deskripsi</th>
+                                    <th scope="col">Grup</th>
                                     <th scope="col" />
                                 </tr>
                             </thead>
@@ -426,8 +475,7 @@ import {
                                                     allowNegative={true} />
                                             </td>
                                             <td>
-                                                {this.short_desc(d.description)}
-                                                {/* {this.state.desc_short} */}
+                                                {d.group_product_name}
                                             </td>
                                             <td className="text-right">
                                             <UncontrolledDropdown>

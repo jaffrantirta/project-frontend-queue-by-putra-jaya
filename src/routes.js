@@ -1,5 +1,7 @@
 import Dashboard from "views/Dashboard.js";
 import CarType from "views/pages/CarType.js";
+import GroupProduct from "views/pages/GroupProduct.js";
+import Product from "views/pages/Product.js";
 
 import Profile from "views/pages/Profile.js";
 import Maps from "views/pages/Maps.js";
@@ -24,6 +26,20 @@ var routes = [
     name: "Tipe Kendaraan",
     icon: "ni ni-planet text-blue",
     component: CarType,
+    layout: "/admin",
+  },
+  {
+    path: "/group-product",
+    name: "Grup Produk",
+    icon: "ni ni-planet text-blue",
+    component: GroupProduct,
+    layout: "/admin",
+  },
+  {
+    path: "/product",
+    name: "Produk",
+    icon: "ni ni-planet text-blue",
+    component: Product,
     layout: "/admin",
   },
   {

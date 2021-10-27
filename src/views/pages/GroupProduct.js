@@ -41,7 +41,6 @@ import {
                 edit_modal_show: false,
                 id: "",
                 name: "",
-                price: "",
                 description: "",
                 offset: 0,
                 data: [],
@@ -57,7 +56,6 @@ import {
             const initialState = {
                 id: "",
                 name: "",
-                price: "",
                 description: "",
               };
               this.setState({ ...initialState });
@@ -84,7 +82,7 @@ import {
                 allowOutsideClick: false,
                 showConfirmButton: false
             })
-            axios.get(baseURL+'api/car_type'+this.state.page, {
+            axios.get(baseURL+'api/group_product'+this.state.page, {
                 headers: {
                     Authorization: 'Bearer ' + JSON.parse(localStorage.getItem('data')).token
                 }
@@ -133,7 +131,7 @@ import {
                 showConfirmButton: false
             })
             
-            axios.delete(baseURL+'api/car_type/delete/'+id, {
+            axios.delete(baseURL+'api/group_product/delete/'+id, {
                 headers: {
                     Authorization: 'Bearer ' + JSON.parse(localStorage.getItem('data')).token
                 }
@@ -164,13 +162,13 @@ import {
                 showConfirmButton: false
             })
             
-            axios.get(baseURL+'api/car_type?id='+id, {
+            axios.get(baseURL+'api/group_product?id='+id, {
                 headers: {
                     Authorization: 'Bearer ' + JSON.parse(localStorage.getItem('data')).token
                 }
             })
             .then(response => {
-                // console.log(JSON.stringify(response.data));
+                console.log(JSON.stringify(response.data));
                 var string = JSON.stringify(response.data);
                 var res = JSON.parse(string);
                 Swal.close();
@@ -182,7 +180,6 @@ import {
                 this.setState({
                     id: res['data']['id'],
                     name: res['data']['name'],
-                    price: res['data']['price'],
                     description: desc,
                     edit_modal_show: true,
                 });
@@ -191,7 +188,6 @@ import {
                 // console.log(error.response.data.response.message.indonesia)
                 Swal.fire({
                     title: 'Oops! Sepertinya ada yang salah',
-                    text: error.response.data.response.message.indonesia,
                     icon: 'error'
                 })
             })
@@ -199,19 +195,16 @@ import {
         insertData(){
             if(this.state.name === ""){
                 Swal.fire('Nama Tidak Boleh Kosong')
-            }else if(this.state.price === ""){
-                Swal.fire('Harga Tidak Boleh Kosong')
             }else{
                 Swal.fire({
-                    title: 'Menambahkan Tipe Kendaraan',
+                    title: 'Menambahkan Grup Produk',
                     allowOutsideClick: false,
                     showConfirmButton: false
                 })
                 const formData = new FormData();
                 formData.append('name', this.state.name);
-                formData.append('price', this.state.price);
                 formData.append('description', this.state.description);
-                axios.post(baseURL+'api/car_type/add', formData, {
+                axios.post(baseURL+'api/group_product/add', formData, {
                     headers: {
                         Authorization: 'Bearer ' + JSON.parse(localStorage.getItem('data')).token
                     }
@@ -231,7 +224,6 @@ import {
                     // console.log(error.response.data.response.message.indonesia)
                     Swal.fire({
                         title: 'Oops! Sepertinya ada yang salah',
-                        text: error.response.data.response.message.indonesia,
                         icon: 'error'
                     })
                 })
@@ -240,19 +232,16 @@ import {
         updateData(){
             if(this.state.name === ""){
                 Swal.fire('Nama Tidak Boleh Kosong')
-            }else if(this.state.price === ""){
-                Swal.fire('Harga Tidak Boleh Kosong')
             }else{
                 Swal.fire({
-                    title: 'Memperbaharui Tipe Kendaraan',
+                    title: 'Memperbaharui Grup Produk',
                     allowOutsideClick: false,
                     showConfirmButton: false
                 })
                 const formData = new FormData();
                 formData.append('name', this.state.name);
-                formData.append('price', this.state.price);
                 formData.append('description', this.state.description);
-                axios.post(baseURL+'api/car_type/update/'+this.state.id, formData, {
+                axios.post(baseURL+'api/group_product/update/'+this.state.id, formData, {
                     headers: {
                         Authorization: 'Bearer ' + JSON.parse(localStorage.getItem('data')).token
                     }
@@ -272,13 +261,13 @@ import {
                     // console.log(error.response.data.response.message.indonesia)
                     Swal.fire({
                         title: 'Oops! Sepertinya ada yang salah',
-                        text: error.response.data.response.message.indonesia,
                         icon: 'error'
                     })
                 })
             }
         }
         short_desc(desc){
+            // console.log(desc);
             if(desc !== null){
                 if(desc.length >= 20){
                     return desc.substring(0, 20) + '...';   
@@ -299,19 +288,19 @@ import {
                         color="warning"
                         onClick={() => this.setState({add_modal_show: true})}
                     >
-                        Tambah Tipe Kendaraan
+                        Tambah Grup Produk
                     </Button>
 
 
                     <Modal show={this.state.add_modal_show} onHide={() => this.setState({add_modal_show: false})} centered>
                         <Modal.Header closeButton>
-                            <Modal.Title>Tambah Tipe Kendaraan</Modal.Title>
+                            <Modal.Title>Tambah Grup Produk</Modal.Title>
                         </Modal.Header>
                         <Modal.Body>
                                 <FormGroup className="mb-3">
                                     <InputGroup className="input-group-alternative">
                                     <Input
-                                        placeholder="Nama Tipe Kendaraan"
+                                        placeholder="Nama Grup Produk"
                                         type="text"
                                         onChange={(e) => this.setState({name: e.target.value})}
                                     />
@@ -320,16 +309,7 @@ import {
                                 <FormGroup className="mb-3">
                                     <InputGroup className="input-group-alternative">
                                     <Input
-                                        placeholder="Harga Tipe Kendaraan"
-                                        type="number"
-                                        onChange={(e) => this.setState({price: e.target.value})}
-                                    />
-                                    </InputGroup>
-                                </FormGroup>
-                                <FormGroup className="mb-3">
-                                    <InputGroup className="input-group-alternative">
-                                    <Input
-                                        placeholder="Deskripsi Tipe Kendaraan (optional)"
+                                        placeholder="Deskripsi Grup Produk (optional)"
                                         type="textarea"
                                         rows="4"
                                         onChange={(e) => this.setState({description: e.target.value})}
@@ -345,13 +325,13 @@ import {
 
                     <Modal show={this.state.edit_modal_show} onHide={() => this.setState({edit_modal_show: false})} centered>
                         <Modal.Header closeButton>
-                            <Modal.Title>Detail Tipe Kendaraan</Modal.Title>
+                            <Modal.Title>Detail Grup Produk</Modal.Title>
                         </Modal.Header>
                         <Modal.Body>
                                 <FormGroup className="mb-3">
                                     <InputGroup className="input-group-alternative">
                                     <Input
-                                        placeholder="Nama Tipe Kendaraan"
+                                        placeholder="Nama Grup Produk"
                                         type="text"
                                         value={this.state.name}
                                         onChange={(e) => this.setState({name: e.target.value})}
@@ -361,17 +341,7 @@ import {
                                 <FormGroup className="mb-3">
                                     <InputGroup className="input-group-alternative">
                                     <Input
-                                        placeholder="Harga Tipe Kendaraan"
-                                        type="number"
-                                        value={this.state.price}
-                                        onChange={(e) => this.setState({price: e.target.value})}
-                                    />
-                                    </InputGroup>
-                                </FormGroup>
-                                <FormGroup className="mb-3">
-                                    <InputGroup className="input-group-alternative">
-                                    <Input
-                                        placeholder="Deskripsi Tipe Kendaraan (optional)"
+                                        placeholder="Deskripsi Grup Produk (optional)"
                                         type="textarea"
                                         row="4"
                                         value={this.state.description}
@@ -392,13 +362,12 @@ import {
                     <div className="col">
                         <Card className="shadow">
                         <CardHeader className="border-0">
-                            <h3 className="mb-0">{this.state.total} Tipe Kendaraan</h3>
+                            <h3 className="mb-0">{this.state.total} Grup Produk</h3>
                         </CardHeader>
                         <Table className="align-items-center table-flush" responsive>
                             <thead className="thead-light">
                                 <tr>
                                     <th scope="col">Nama</th>
-                                    <th scope="col">Harga</th>
                                     <th scope="col">Deskripsi</th>
                                     <th scope="col" />
                                 </tr>
@@ -416,18 +385,7 @@ import {
                                             </Media>
                                             </th>
                                             <td>
-                                                <NumberFormat 
-                                                    thousandSeparator="thousand" 
-                                                    value={d.price}
-                                                    prefix="Rp"
-                                                    displayType="text"
-                                                    decimalSeparator="."
-                                                    thousandSeparator={true}
-                                                    allowNegative={true} />
-                                            </td>
-                                            <td>
                                                 {this.short_desc(d.description)}
-                                                {/* {this.state.desc_short} */}
                                             </td>
                                             <td className="text-right">
                                             <UncontrolledDropdown>

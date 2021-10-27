@@ -44,7 +44,7 @@ function Register() {
       formData.append('shop_website', shop_website);
       formData.append('shop_key_code', shop_key_code);
 
-      await axios.post(baseURL+'register', formData)
+      await axios.post(baseURL+'api/register', formData)
       .then(response => {
         // console.log(response)
         Swal.fire({

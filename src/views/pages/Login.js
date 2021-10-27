@@ -33,7 +33,7 @@ function Login() {
           allowOutsideClick: false,
           showConfirmButton: false
       })
-      await axios.post(baseURL+'login', formData)
+      await axios.post(baseURL+'api/login', formData)
       .then(response => {
         console.log(response.data['data'])
         localStorage.setItem('is_logged_in', true);
