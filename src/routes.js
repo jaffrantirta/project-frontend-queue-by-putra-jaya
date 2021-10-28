@@ -2,6 +2,7 @@ import Dashboard from "views/Dashboard.js";
 import CarType from "views/pages/CarType.js";
 import GroupProduct from "views/pages/GroupProduct.js";
 import Product from "views/pages/Product.js";
+import PaymentMethod from "views/pages/PaymentMethod.js";
 
 import Profile from "views/pages/Profile.js";
 import Maps from "views/pages/Maps.js";
@@ -16,7 +17,7 @@ var routes = [
   {
     path: "/dashboard",
     name: 'Dahsboard',
-    icon: "ni ni-tv-2 text-primary",
+    icon: "fa fa-tachometer-alt",
     component: Dashboard,
     layout: "/admin",
     
@@ -24,58 +25,65 @@ var routes = [
   {
     path: "/car-type",
     name: "Tipe Kendaraan",
-    icon: "ni ni-planet text-blue",
+    icon: "fa fa-car",
     component: CarType,
     layout: "/admin",
   },
   {
     path: "/group-product",
     name: "Grup Produk",
-    icon: "ni ni-planet text-blue",
+    icon: "fa fa-layer-group",
     component: GroupProduct,
     layout: "/admin",
   },
   {
     path: "/product",
     name: "Produk",
-    icon: "ni ni-planet text-blue",
+    icon: "fa fa-shower",
     component: Product,
     layout: "/admin",
   },
   {
-    path: "/maps",
-    name: "Maps",
-    icon: "ni ni-pin-3 text-orange",
-    component: Maps,
+    path: "/payment-method",
+    name: "Metode Pembayaran",
+    icon: "fa fa-wallet",
+    component: PaymentMethod,
     layout: "/admin",
   },
-  {
-    path: "/user-profile",
-    name: "User Profile",
-    icon: "ni ni-single-02 text-yellow",
-    component: Profile,
-    layout: "/admin",
-  },
-  {
-    path: "/tables",
-    name: "Tables",
-    icon: "ni ni-bullet-list-67 text-red",
-    component: Tables,
-    layout: "/admin",
-  },
-  {
-    path: "/login",
-    name: "Login",
-    icon: "ni ni-key-25 text-info",
-    component: Login,
-    layout: "/auth",
-  },
-  {
-    path: "/register",
-    name: "Register",
-    icon: "ni ni-circle-08 text-pink",
-    component: Register,
-    layout: "/auth",
-  },
+  // {
+  //   path: "/maps",
+  //   name: "Maps",
+  //   icon: "fa fa-user",
+  //   component: Maps,
+  //   layout: "/admin",
+  // },
+  // {
+  //   path: "/user-profile",
+  //   name: "User Profile",
+  //   icon: "fa fa-user",
+  //   component: Profile,
+  //   layout: "/admin",
+  // },
+  // {
+  //   path: "/tables",
+  //   name: "Tables",
+  //   icon: "fa fa-user",
+  //   component: Tables,
+  //   layout: "/admin",
+  // },
+  // {
+  //   path: "/login",
+  //   name: "Login",
+  //   icon: "fa fa-user",
+  //   component: Login,
+  //   layout: "/auth",
+  // },
+  // {
+  //   path: "/register",
+  //   name: "Register",
+  //   icon: "fa fa-user",
+  //   component: Register,
+  //   layout: "/auth",
+  // },
 ];
 export default routes;
