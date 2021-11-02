@@ -4,6 +4,8 @@ import GroupProduct from "views/pages/GroupProduct.js";
 import Product from "views/pages/Product.js";
 import PaymentMethod from "views/pages/PaymentMethod.js";
 
+import OrderPart1 from "views/pages/OrderPart1.js";
+
 import Profile from "views/pages/Profile.js";
 import Maps from "views/pages/Maps.js";
 import Register from "views/pages/Register.js";
@@ -49,6 +51,13 @@ var routes = [
     icon: "fa fa-wallet",
     component: PaymentMethod,
     layout: "/admin",
+  },
+  {
+    path: "/part-1",
+    name: "Buat Pesanan",
+    icon: "fa fa-wallet",
+    component: OrderPart1,
+    layout: "/order",
   },
   // {
   //   path: "/maps",

@@ -8,6 +8,7 @@ import "assets/scss/argon-dashboard-react.scss";
 
 import AdminLayout from "layouts/Admin.js";
 import AuthLayout from "layouts/Auth.js";
+import OrderLayout from "layouts/Order.js";
 
 
 ReactDOM.render(
@@ -16,6 +17,17 @@ ReactDOM.render(
       <Route path="/admin" render={(props) => {
         if(localStorage.getItem('is_logged_in')){
           return <AdminLayout {...props}/>;
+        }else{
+          return (
+            <Redirect
+              to="/auth/login"
+            />
+          );
+        }
+      }} />
+      <Route path="/order" render={(props) => {
+        if(localStorage.getItem('is_logged_in')){
+          return <OrderLayout {...props}/>;
         }else{
           return (
             <Redirect
