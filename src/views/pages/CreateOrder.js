@@ -32,16 +32,6 @@ import {
   import DropdownButton from 'react-bootstrap/DropdownButton';
   import Dropdown from 'react-bootstrap/Dropdown';
   import Moment from 'moment';
-
-    const buttonStyle = {
-        marginBottom: 10,
-    };
-    const buttonAddStyle = {
-        marginTop: 10,
-    };
-    const invoice = {
-        minWidth: 600
-    };
     const fontSize = {
         fontSize: 10
     };
@@ -323,8 +313,8 @@ import {
                     // console.log(JSON.stringify(response.data['data']['shop']));
                     this.setState({
                         queue: response.data['data']['queue']['code'] + response.data['data']['queue']['number'],
-                        shop_name: response.data['data']['shop'][0]['shop']['name'],
-                        shop_address: response.data['data']['shop'][0]['shop']['address'],
+                        shop_name: response.data['data']['shop']['shop']['name'],
+                        shop_address: response.data['data']['shop']['shop']['address'],
                         order_number: response.data['data']['order']['order_number'],
                         customer_name: response.data['data']['order']['customer_name'],
                         license_plate: response.data['data']['order']['license_plate'],

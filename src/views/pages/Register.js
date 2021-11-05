@@ -48,7 +48,7 @@ function Register() {
       .then(response => {
         // console.log(response)
         Swal.fire({
-          title: 'Oops! Sepertinya ada yang salah',
+          title: 'Registrasi Berhasil',
           text: response.data.response.message.indonesia,
           icon: 'success'
         })

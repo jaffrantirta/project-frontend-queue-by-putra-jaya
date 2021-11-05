@@ -47,8 +47,7 @@ function Login() {
       .catch(error => {
         // console.log(error)
         Swal.fire({
-          title: 'Oops! Sepertinya ada yang salah',
-          text: error.response.data.response.message.indonesia,
+          title: 'Oops! Login Gagal',
           icon: 'error'
         })
       })

@@ -3,8 +3,10 @@ import CarType from "views/pages/CarType.js";
 import GroupProduct from "views/pages/GroupProduct.js";
 import Product from "views/pages/Product.js";
 import PaymentMethod from "views/pages/PaymentMethod.js";
+import TodayQueue from "views/pages/TodayQueue.js";
+import Order from "views/pages/Order.js";
 
-import OrderPart1 from "views/pages/OrderPart1.js";
+import CreateOrder from "views/pages/CreateOrder.js";
 
 import Profile from "views/pages/Profile.js";
 import Maps from "views/pages/Maps.js";
@@ -21,6 +23,14 @@ var routes = [
     name: 'Dahsboard',
     icon: "fa fa-tachometer-alt",
     component: Dashboard,
+    layout: "/admin",
+    
+  },
+  {
+    path: "/today-queues",
+    name: 'Antrian Hari Ini',
+    icon: "fa fa-calendar-day",
+    component: TodayQueue,
     layout: "/admin",
     
   },
@@ -53,11 +63,32 @@ var routes = [
     layout: "/admin",
   },
   {
-    path: "/part-1",
+    path: "/create",
     name: "Buat Pesanan",
     icon: "fa fa-wallet",
-    component: OrderPart1,
+    component: CreateOrder,
     layout: "/order",
+  },
+  {
+    path: "/order",
+    name: "Pesanan",
+    icon: "fa fa-wallet",
+    component: Order,
+    layout: "/admin",
+  },
+  {
+    path: "/login",
+    name: "Login",
+    icon: "fa fa-user",
+    component: Login,
+    layout: "/auth",
+  },
+  {
+    path: "/register",
+    name: "Register",
+    icon: "fa fa-user",
+    component: Register,
+    layout: "/auth",
   },
   // {
   //   path: "/maps",
@@ -79,20 +110,6 @@ var routes = [
   //   icon: "fa fa-user",
   //   component: Tables,
   //   layout: "/admin",
-  // },
-  // {
-  //   path: "/login",
-  //   name: "Login",
-  //   icon: "fa fa-user",
-  //   component: Login,
-  //   layout: "/auth",
-  // },
-  // {
-  //   path: "/register",
-  //   name: "Register",
-  //   icon: "fa fa-user",
-  //   component: Register,
-  //   layout: "/auth",
   // },
 ];
 export default routes;

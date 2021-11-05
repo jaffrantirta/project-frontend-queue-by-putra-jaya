@@ -64,6 +64,9 @@ const Sidebar = (props) => {
   const toggleCollapse = () => {
     setCollapseOpen((data) => !data);
   };
+  const brandText = () => {
+    console.log(JSON.parse(localStorage.getItem('data')).shop_user[0].shop.name);
+  };
   // closes the collapse
   const closeCollapse = () => {
     setCollapseOpen(false);
@@ -118,12 +121,8 @@ const Sidebar = (props) => {
         </button>
         {/* Brand */}
         {logo ? (
-          <NavbarBrand className="pt-0" {...navbarBrandProps}>
-            <img
-              alt={logo.imgAlt}
-              className="navbar-brand-img"
-              src={logo.imgSrc}
-            />
+          <NavbarBrand className="pt-0">
+            <h1 className="h1">{brandText}</h1>
           </NavbarBrand>
         ) : null}
         {/* User */}
