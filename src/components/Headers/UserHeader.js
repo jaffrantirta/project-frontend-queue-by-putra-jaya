@@ -20,6 +20,19 @@
 import { Button, Container, Row, Col } from "reactstrap";
 
 const UserHeader = () => {
+  var myDate = new Date();
+    var hrs = myDate.getHours();
+
+    var greet;
+
+    if (hrs < 12)
+        greet = 'Selamat Pagi, ';
+    else if (hrs >= 12 && hrs <= 15)
+        greet = 'Selamat Siang, ';
+    else if (hrs >= 15 && hrs <= 17)
+        greet = 'Selamat Sore, ';
+    else if (hrs >= 17 && hrs <= 24)
+        greet = 'Selamat Malam, ';
   return (
     <>
       <div
@@ -39,11 +52,10 @@ const UserHeader = () => {
         {/* Header container */}
         <Container className="d-flex align-items-center" fluid>
           <Row>
-            <Col lg="7" md="10">
-              <h1 className="display-2 text-white">Hello Jesse</h1>
-              <p className="text-white mt-0 mb-5">
-                This is your profile page. You can see the progress you've made
-                with your work and manage your projects or assigned tasks
+            <Col lg="12" md="10">
+              <h3 className="display-5 text-white">{greet}<br/>{JSON.parse(localStorage.getItem('data')).user.name}</h3>
+              {/* <p className="text-white mt-0 mb-5">
+                
               </p>
               <Button
                 color="info"
@@ -51,7 +63,7 @@ const UserHeader = () => {
                 onClick={(e) => e.preventDefault()}
               >
                 Edit profile
-              </Button>
+              </Button> */}
             </Col>
           </Row>
         </Container>

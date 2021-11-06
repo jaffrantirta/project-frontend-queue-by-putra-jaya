@@ -5,6 +5,7 @@ import Product from "views/pages/Product.js";
 import PaymentMethod from "views/pages/PaymentMethod.js";
 import TodayQueue from "views/pages/TodayQueue.js";
 import Order from "views/pages/Order.js";
+import User from "views/pages/User.js";
 
 import CreateOrder from "views/pages/CreateOrder.js";
 
@@ -33,6 +34,13 @@ var routes = [
     component: TodayQueue,
     layout: "/admin",
     
+  },
+  {
+    path: "/user-profile",
+    name: "Profile",
+    icon: "fa fa-user",
+    component: Profile,
+    layout: "/admin",
   },
   {
     path: "/car-type",
@@ -74,6 +82,13 @@ var routes = [
     name: "Pesanan",
     icon: "fa fa-wallet",
     component: Order,
+    layout: "/admin",
+  },
+  {
+    path: "/users",
+    name: "Pengguna",
+    icon: "fa fa-wallet",
+    component: User,
     layout: "/admin",
   },
   {

@@ -1,22 +1,3 @@
-/*!
-
-=========================================================
-* Argon Dashboard React - v1.2.1
-=========================================================
-
-* Product Page: https://www.creative-tim.com/product/argon-dashboard-react
-* Copyright 2021 Creative Tim (https://www.creative-tim.com)
-* Licensed under MIT (https://github.com/creativetimofficial/argon-dashboard-react/blob/master/LICENSE.md)
-
-* Coded by Creative Tim
-
-=========================================================
-
-* The above copyright notice and this permission notice shall be included in all copies or substantial portions of the Software.
-
-*/
-
-// reactstrap components
 import {
   Button,
   Card,
@@ -28,305 +9,448 @@ import {
   Container,
   Row,
   Col,
+  CardFooter,
 } from "reactstrap";
 // core components
 import UserHeader from "components/Headers/UserHeader.js";
+import axios from 'axios';
+import Swal from 'sweetalert2';
+import { baseURL } from "../../utils/BaseUrl.js";
+import React, { Component } from "react";
 
-const Profile = () => {
-  return (
-    <>
-      <UserHeader />
-      {/* Page content */}
-      <Container className="mt--7" fluid>
-        <Row>
-          <Col className="order-xl-2 mb-5 mb-xl-0" xl="4">
-            <Card className="card-profile shadow">
-              <Row className="justify-content-center">
-                <Col className="order-lg-2" lg="3">
-                  <div className="card-profile-image">
-                    <a href="#pablo" onClick={(e) => e.preventDefault()}>
-                      <img
-                        alt="..."
-                        className="rounded-circle"
-                        src={
-                          require("../../assets/img/theme/team-4-800x800.jpg")
-                            .default
-                        }
-                      />
-                    </a>
-                  </div>
-                </Col>
-              </Row>
-              <CardHeader className="text-center border-0 pt-8 pt-md-4 pb-0 pb-md-4">
-                <div className="d-flex justify-content-between">
-                  <Button
-                    className="mr-4"
-                    color="info"
-                    href="#pablo"
-                    onClick={(e) => e.preventDefault()}
-                    size="sm"
-                  >
-                    Connect
-                  </Button>
-                  <Button
-                    className="float-right"
-                    color="default"
-                    href="#pablo"
-                    onClick={(e) => e.preventDefault()}
-                    size="sm"
-                  >
-                    Message
-                  </Button>
-                </div>
-              </CardHeader>
-              <CardBody className="pt-0 pt-md-4">
-                <Row>
-                  <div className="col">
-                    <div className="card-profile-stats d-flex justify-content-center mt-md-5">
-                      <div>
-                        <span className="heading">22</span>
-                        <span className="description">Friends</span>
-                      </div>
-                      <div>
-                        <span className="heading">10</span>
-                        <span className="description">Photos</span>
-                      </div>
-                      <div>
-                        <span className="heading">89</span>
-                        <span className="description">Comments</span>
-                      </div>
-                    </div>
-                  </div>
-                </Row>
-                <div className="text-center">
-                  <h3>
-                    Jessica Jones
-                    <span className="font-weight-light">, 27</span>
-                  </h3>
-                  <div className="h5 font-weight-300">
-                    <i className="ni location_pin mr-2" />
-                    Bucharest, Romania
-                  </div>
-                  <div className="h5 mt-4">
-                    <i className="ni business_briefcase-24 mr-2" />
-                    Solution Manager - Creative Tim Officer
-                  </div>
-                  <div>
-                    <i className="ni education_hat mr-2" />
-                    University of Computer Science
-                  </div>
-                  <hr className="my-4" />
-                  <p>
-                    Ryan — the name taken by Melbourne-raised, Brooklyn-based
-                    Nick Murphy — writes, performs and records all of his own
-                    music.
-                  </p>
-                  <a href="#pablo" onClick={(e) => e.preventDefault()}>
-                    Show more
-                  </a>
-                </div>
-              </CardBody>
-            </Card>
-          </Col>
-          <Col className="order-xl-1" xl="8">
-            <Card className="bg-secondary shadow">
-              <CardHeader className="bg-white border-0">
-                <Row className="align-items-center">
-                  <Col xs="8">
-                    <h3 className="mb-0">My account</h3>
-                  </Col>
-                  <Col className="text-right" xs="4">
-                    <Button
-                      color="primary"
-                      href="#pablo"
-                      onClick={(e) => e.preventDefault()}
-                      size="sm"
-                    >
-                      Settings
-                    </Button>
-                  </Col>
-                </Row>
-              </CardHeader>
-              <CardBody>
-                <Form>
-                  <h6 className="heading-small text-muted mb-4">
-                    User information
-                  </h6>
-                  <div className="pl-lg-4">
-                    <Row>
-                      <Col lg="6">
-                        <FormGroup>
-                          <label
-                            className="form-control-label"
-                            htmlFor="input-username"
-                          >
-                            Username
-                          </label>
-                          <Input
-                            className="form-control-alternative"
-                            defaultValue="lucky.jesse"
-                            id="input-username"
-                            placeholder="Username"
-                            type="text"
-                          />
-                        </FormGroup>
-                      </Col>
-                      <Col lg="6">
-                        <FormGroup>
-                          <label
-                            className="form-control-label"
-                            htmlFor="input-email"
-                          >
-                            Email address
-                          </label>
-                          <Input
-                            className="form-control-alternative"
-                            id="input-email"
-                            placeholder="jesse@example.com"
-                            type="email"
-                          />
-                        </FormGroup>
-                      </Col>
-                    </Row>
-                    <Row>
-                      <Col lg="6">
-                        <FormGroup>
-                          <label
-                            className="form-control-label"
-                            htmlFor="input-first-name"
-                          >
-                            First name
-                          </label>
-                          <Input
-                            className="form-control-alternative"
-                            defaultValue="Lucky"
-                            id="input-first-name"
-                            placeholder="First name"
-                            type="text"
-                          />
-                        </FormGroup>
-                      </Col>
-                      <Col lg="6">
-                        <FormGroup>
-                          <label
-                            className="form-control-label"
-                            htmlFor="input-last-name"
-                          >
-                            Last name
-                          </label>
-                          <Input
-                            className="form-control-alternative"
-                            defaultValue="Jesse"
-                            id="input-last-name"
-                            placeholder="Last name"
-                            type="text"
-                          />
-                        </FormGroup>
-                      </Col>
-                    </Row>
-                  </div>
-                  <hr className="my-4" />
-                  {/* Address */}
-                  <h6 className="heading-small text-muted mb-4">
-                    Contact information
-                  </h6>
-                  <div className="pl-lg-4">
-                    <Row>
-                      <Col md="12">
-                        <FormGroup>
-                          <label
-                            className="form-control-label"
-                            htmlFor="input-address"
-                          >
-                            Address
-                          </label>
-                          <Input
-                            className="form-control-alternative"
-                            defaultValue="Bld Mihail Kogalniceanu, nr. 8 Bl 1, Sc 1, Ap 09"
-                            id="input-address"
-                            placeholder="Home Address"
-                            type="text"
-                          />
-                        </FormGroup>
-                      </Col>
-                    </Row>
-                    <Row>
-                      <Col lg="4">
-                        <FormGroup>
-                          <label
-                            className="form-control-label"
-                            htmlFor="input-city"
-                          >
-                            City
-                          </label>
-                          <Input
-                            className="form-control-alternative"
-                            defaultValue="New York"
-                            id="input-city"
-                            placeholder="City"
-                            type="text"
-                          />
-                        </FormGroup>
-                      </Col>
-                      <Col lg="4">
-                        <FormGroup>
-                          <label
-                            className="form-control-label"
-                            htmlFor="input-country"
-                          >
-                            Country
-                          </label>
-                          <Input
-                            className="form-control-alternative"
-                            defaultValue="United States"
-                            id="input-country"
-                            placeholder="Country"
-                            type="text"
-                          />
-                        </FormGroup>
-                      </Col>
-                      <Col lg="4">
-                        <FormGroup>
-                          <label
-                            className="form-control-label"
-                            htmlFor="input-country"
-                          >
-                            Postal code
-                          </label>
-                          <Input
-                            className="form-control-alternative"
-                            id="input-postal-code"
-                            placeholder="Postal code"
-                            type="number"
-                          />
-                        </FormGroup>
-                      </Col>
-                    </Row>
-                  </div>
-                  <hr className="my-4" />
-                  {/* Description */}
-                  <h6 className="heading-small text-muted mb-4">About me</h6>
-                  <div className="pl-lg-4">
-                    <FormGroup>
-                      <label>About Me</label>
-                      <Input
-                        className="form-control-alternative"
-                        placeholder="A few words about you ..."
-                        rows="4"
-                        defaultValue="A beautiful Dashboard for Bootstrap 4. It is Free and
-                        Open Source."
-                        type="textarea"
-                      />
-                    </FormGroup>
-                  </div>
-                </Form>
-              </CardBody>
-            </Card>
-          </Col>
-        </Row>
-      </Container>
-    </>
-  );
+const cardStyle = {
+  marginBottom: 10,
 };
+export default class javascriptMap extends Component {
+  constructor(props){
+      super(props)
+      this.state = {
+          user_name: JSON.parse(localStorage.getItem('data')).user.name,
+          user_email: JSON.parse(localStorage.getItem('data')).user.email,
+          user_phone: JSON.parse(localStorage.getItem('data')).user.phone,
+          shop_name: JSON.parse(localStorage.getItem('data')).shop_user[0].shop.name,
+          shop_phone: JSON.parse(localStorage.getItem('data')).shop_user[0].shop.phone,
+          shop_email: JSON.parse(localStorage.getItem('data')).shop_user[0].shop.email,
+          shop_website: JSON.parse(localStorage.getItem('data')).shop_user[0].shop.website,
+          shop_key_code: JSON.parse(localStorage.getItem('data')).shop_user[0].shop.key_code,
+          shop_address: JSON.parse(localStorage.getItem('data')).shop_user[0].shop.address,
+          old_password: "",
+          new_password: "",
+          new_confirm_password: "",
+      };
+  }
 
-export default Profile;
+  saveChange(){
+    if(this.state.user_name === ""){
+      Swal.fire('Nama Pengguna Tidak Boleh Kosong')
+    }else if(this.state.user_email === ""){
+        Swal.fire('Email Pengguna Tidak Boleh Kosong')
+      }else if(this.state.user_phone === ""){
+        Swal.fire('Telepon Pengguna Tidak Boleh Kosong')
+      }else if(this.state.shop_name === ""){
+        Swal.fire('Nama Toko Tidak Boleh Kosong')
+      }else if(this.state.shop_email === ""){
+        Swal.fire('Email Toko Tidak Boleh Kosong')
+      }else if(this.state.shop_phone === ""){
+        Swal.fire('Telepon Toko Tidak Boleh Kosong')
+      }else if(this.state.shop_address === ""){
+        Swal.fire('Alamat Toko Tidak Boleh Kosong')
+      }else if(this.state.shop_key_code === ""){
+        Swal.fire('Kode Antrian Toko Tidak Boleh Kosong')
+    }else{
+        Swal.fire({
+            title: 'Menyimpan Perubahan',
+            allowOutsideClick: false,
+            showConfirmButton: false
+        })
+        const formData = new FormData();
+        formData.append('user_name', this.state.user_name);
+        formData.append('user_email', this.state.user_email);
+        formData.append('user_phone', this.state.user_phone);
+        formData.append('shop_name', this.state.shop_name);
+        formData.append('shop_phone', this.state.shop_phone);
+        formData.append('shop_email', this.state.shop_email);
+        formData.append('shop_website', this.state.shop_website);
+        formData.append('shop_key_code', this.state.shop_key_code);
+        formData.append('shop_address', this.state.shop_address);
+        axios.post(baseURL+'api/profile/update', formData, {
+            headers: {
+                Authorization: 'Bearer ' + JSON.parse(localStorage.getItem('data')).token
+            }
+        })
+        .then(response => {
+            // console.log(JSON.stringify(response.data['data']));
+            this.setState({add_modal_show:false})
+            Swal.fire({
+                title: response.data['response']['message']['indonesia'],
+                text: 'Logout Sekarang Untuk Memuat Data Terbaru',
+                icon: 'warning',
+                allowOutsideClick: false,
+                confirmButtonText: 'Logout',
+            }).then((result) => {
+              this.loggingOut();
+            })
+            
+        })
+        .catch(error => {
+            // console.log(error.response.data.response.message.indonesia)
+            Swal.fire({
+                title: 'Oops! Sepertinya ada yang salah',
+                icon: 'error'
+            })
+        })
+    }
+  }
+  changePassword(){
+    Swal.fire({
+      title: 'Yakin Ganti Password ?',
+      icon: 'warning',
+      showCancelButton: true,
+      confirmButtonText: 'Ya',
+    }).then((result) => {
+      if(result.isConfirmed){
+        this.changingPassword()
+      }
+    })
+  }
+  changingPassword(){
+        const formData = new FormData();
+        formData.append('old_password', this.state.old_password);
+        formData.append('new_password', this.state.new_password);
+        formData.append('new_confirm_password', this.state.new_confirm_password);
+        axios.post(baseURL+'api/profile/change/password', formData, {
+            headers: {
+                Authorization: 'Bearer ' + JSON.parse(localStorage.getItem('data')).token
+            }
+        })
+        .then(response => {
+            // console.log(JSON.stringify(response.data['data']));
+            this.setState({old_password:"", new_password: "", new_confirm_password: ""})
+            Swal.fire({
+                title: response.data['response']['message']['indonesia'],
+                icon: 'success',
+            })
+        })
+        .catch(error => {
+            // console.log(error.response.data.response.message.indonesia)
+            Swal.fire({
+                title: 'Oops! '+error.response.data.response.message.indonesia,
+                icon: 'error'
+            })
+        })
+  }
+  loggingOut(){
+    Swal.fire({
+      title: 'Logging Out',
+      allowOutsideClick: false,
+      showConfirmButton: false
+    })
+    axios.get(baseURL+'api/logout', {
+        headers: {
+            Authorization: 'Bearer ' + JSON.parse(localStorage.getItem('data')).token
+        }
+    })
+    .then(response => {
+      localStorage.removeItem('is_logged_in');
+      localStorage.removeItem('data');
+      window.location.reload();
+    })
+    .catch(error => {
+        // console.log(error)
+        Swal.close()
+        Swal.fire({
+            title: 'Oops! Sepertinya ada yang salah',
+            icon: 'error'
+          })
+    })
+  }
+
+  render() {
+    return (
+      <>
+        <UserHeader />
+        {/* Page content */}
+        <Container className="mt--7" fluid>
+          <Row>
+            <Col className="order-xl-1" xl="12">
+              <Card style={cardStyle}>
+                <CardHeader className="bg-white border-0">
+                  <Row className="align-items-center">
+                    <Col xs="8">
+                      <h3 className="mb-0">Akun saya</h3>
+                    </Col>
+                  </Row>
+                </CardHeader>
+                <CardBody>
+                  <Form>
+                    <h6 className="heading-small text-muted mb-4">
+                      Informasi Pengguna
+                    </h6>
+                    <div className="pl-lg-4">
+                      <Row>
+                        <Col lg="6">
+                          <FormGroup>
+                            <label
+                              className="form-control-label"
+                              htmlFor="input-username"
+                            >
+                              Nama
+                            </label>
+                            <Input
+                              onChange={(e) => this.setState({user_name: e.target.value})}
+                              className="form-control-alternative"
+                              defaultValue={JSON.parse(localStorage.getItem('data')).user.name}
+                              placeholder="Nama"
+                              type="text"
+                            />
+                          </FormGroup>
+                        </Col>
+                        <Col lg="6">
+                          <FormGroup>
+                            <label
+                              className="form-control-label"
+                              htmlFor="input-email"
+                            >
+                              Email
+                            </label>
+                            <Input
+                              onChange={(e) => this.setState({user_email: e.target.value})}
+                              className="form-control-alternative"
+                              defaultValue={JSON.parse(localStorage.getItem('data')).user.email}
+                              placeholder="Email"
+                              type="email"
+                            />
+                          </FormGroup>
+                        </Col>
+                      </Row>
+                      <Row>
+                        <Col lg="6">
+                          <FormGroup>
+                            <label
+                              className="form-control-label"
+                              htmlFor="input-first-name"
+                            >
+                              Nomor Telepon
+                            </label>
+                            <Input
+                             onChange={(e) => this.setState({user_phone: e.target.value})}
+                              className="form-control-alternative"
+                              defaultValue={JSON.parse(localStorage.getItem('data')).user.phone}
+                              placeholder="No. Telepon"
+                              type="number"
+                            />
+                          </FormGroup>
+                        </Col>
+                      </Row>
+                    </div>
+                    <hr className="my-4" />
+                    {/* Address */}
+                    <h6 className="heading-small text-muted mb-4">
+                      Informasi Toko
+                    </h6>
+                    <div className="pl-lg-4">
+                      <Row>
+                        <Col lg="6">
+                          <FormGroup>
+                            <label
+                              className="form-control-label"
+                              htmlFor="input-username"
+                            >
+                              Nama Toko
+                            </label>
+                            <Input
+                            onChange={(e) => this.setState({shop_name: e.target.value})}
+                              className="form-control-alternative"
+                              defaultValue={JSON.parse(localStorage.getItem('data')).shop_user[0].shop.name}
+                              placeholder="Nama Toko"
+                              type="text"
+                            />
+                          </FormGroup>
+                        </Col>
+                        <Col lg="6">
+                          <FormGroup>
+                            <label
+                              className="form-control-label"
+                              htmlFor="input-email"
+                            >
+                              Alamat Toko
+                            </label>
+                            <Input
+                              onChange={(e) => this.setState({shop_address: e.target.value})}
+                              className="form-control-alternative"
+                              defaultValue={JSON.parse(localStorage.getItem('data')).shop_user[0].shop.address}
+                              placeholder="Alamat Toko"
+                              type="text"
+                            />
+                          </FormGroup>
+                        </Col>
+                      </Row>
+                      <Row>
+                        <Col lg="6">
+                          <FormGroup>
+                            <label
+                              className="form-control-label"
+                              htmlFor="input-first-name"
+                            >
+                              Nomor Telepon Toko
+                            </label>
+                            <Input
+                              onChange={(e) => this.setState({shop_phone: e.target.value})}
+                              className="form-control-alternative"
+                              defaultValue={JSON.parse(localStorage.getItem('data')).shop_user[0].shop.phone}
+                              placeholder="No. Telepon Toko"
+                              type="number"
+                            />
+                          </FormGroup>
+                        </Col>
+                        <Col lg="6">
+                          <FormGroup>
+                            <label
+                              className="form-control-label"
+                              htmlFor="input-last-name"
+                            >
+                              Email Toko
+                            </label>
+                            <Input
+                              onChange={(e) => this.setState({shop_email: e.target.value})}
+                              className="form-control-alternative"
+                              defaultValue={JSON.parse(localStorage.getItem('data')).shop_user[0].shop.email}
+                              placeholder="Email Toko"
+                              type="email"
+                            />
+                          </FormGroup>
+                        </Col>
+                      </Row>
+                      <Row>
+                        <Col lg="6">
+                          <FormGroup>
+                            <label
+                              className="form-control-label"
+                              htmlFor="input-first-name"
+                            >
+                              Website Toko
+                            </label>
+                            <Input
+                              onChange={(e) => this.setState({shop_website: e.target.value})}
+                              className="form-control-alternative"
+                              defaultValue={JSON.parse(localStorage.getItem('data')).shop_user[0].shop.website}
+                              placeholder="No. Telepon Toko"
+                              type="website"
+                            />
+                          </FormGroup>
+                        </Col>
+                        <Col lg="6">
+                          <FormGroup>
+                            <label
+                              className="form-control-label"
+                              htmlFor="input-last-name"
+                            >
+                              Kode Antrian Toko
+                            </label>
+                            <Input
+                              onChange={(e) => this.setState({shop_key_code: e.target.value})}
+                              className="form-control-alternative"
+                              defaultValue={JSON.parse(localStorage.getItem('data')).shop_user[0].shop.key_code}
+                              placeholder="Email Toko"
+                              type="email"
+                            />
+                          </FormGroup>
+                        </Col>
+                      </Row>
+                    </div>
+                  </Form>
+                </CardBody>
+                <CardFooter>
+                  <Button onClick={() => this.saveChange()}>Simpan Perubahan</Button>
+                </CardFooter>
+              </Card>
+            </Col>
+
+            <Col className="order-xl-1" xl="12">
+              <Card style={cardStyle}>
+                <CardHeader className="bg-white border-0">
+                  <Row className="align-items-center">
+                    <Col xs="8">
+                      <h3 className="mb-0">Ganti Password</h3>
+                    </Col>
+                  </Row>
+                </CardHeader>
+                <CardBody>
+                  <Form>
+                    <h6 className="heading-small text-muted mb-4">
+                      Passowrd Lama
+                    </h6>
+                    <div className="pl-lg-4">
+                      <Row>
+                        <Col lg="6">
+                          <FormGroup>
+                            <label
+                              className="form-control-label"
+                              htmlFor="input-username"
+                            >
+                              Passowrd Lama
+                            </label>
+                            <Input
+                              onChange={(e) => this.setState({old_password: e.target.value})}
+                              className="form-control-alternative"
+                              placeholder="Masukan Password Lama"
+                              type="password"
+                            />
+                          </FormGroup>
+                        </Col>
+                      </Row>
+                    </div>
+                    <hr className="my-4" />
+                    {/* Address */}
+                    <h6 className="heading-small text-muted mb-4">
+                      Password Baru
+                    </h6>
+                    <div className="pl-lg-4">
+                      <Row>
+                        <Col lg="6">
+                          <FormGroup>
+                            <label
+                              className="form-control-label"
+                              htmlFor="input-username"
+                            >
+                              Password Baru
+                            </label>
+                            <Input
+                            onChange={(e) => this.setState({new_password: e.target.value})}
+                              className="form-control-alternative"
+                              placeholder="Masukan Password Baru"
+                              type="password"
+                            />
+                          </FormGroup>
+                        </Col>
+                        <Col lg="6">
+                          <FormGroup>
+                            <label
+                              className="form-control-label"
+                              htmlFor="input-email"
+                            >
+                              Konfirmasi Password Baru
+                            </label>
+                            <Input
+                              onChange={(e) => this.setState({new_confirm_password: e.target.value})}
+                              className="form-control-alternative"
+                              placeholder="Masukan Password Baru Konfirmasi"
+                              type="password"
+                            />
+                          </FormGroup>
+                        </Col>
+                      </Row>
+                    </div>
+                  </Form>
+                </CardBody>
+                <CardFooter>
+                  <Button onClick={() => this.changePassword()}>Ganti Password</Button>
+                </CardFooter>
+              </Card>
+            </Col>
+          </Row>
+        </Container>
+      </>
+    );
+  }
+}

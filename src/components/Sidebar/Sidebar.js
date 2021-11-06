@@ -64,9 +64,6 @@ const Sidebar = (props) => {
   const toggleCollapse = () => {
     setCollapseOpen((data) => !data);
   };
-  const brandText = () => {
-    console.log(JSON.parse(localStorage.getItem('data')).shop_user[0].shop.name);
-  };
   // closes the collapse
   const closeCollapse = () => {
     setCollapseOpen(false);
@@ -120,11 +117,9 @@ const Sidebar = (props) => {
           <span className="navbar-toggler-icon" />
         </button>
         {/* Brand */}
-        {logo ? (
-          <NavbarBrand className="pt-0">
-            <h1 className="h1">{brandText}</h1>
-          </NavbarBrand>
-        ) : null}
+          {/* <NavbarBrand className="pt-0"> */}
+            <h1 className="h1">{JSON.parse(localStorage.getItem('data')).shop_user[0].shop.name}</h1>
+          {/* </NavbarBrand> */}
         {/* User */}
         <Nav className="align-items-center d-md-none">
           <UncontrolledDropdown nav>
@@ -149,7 +144,7 @@ const Sidebar = (props) => {
                   <img
                     alt="..."
                     src={
-                      require("../../assets/img/theme/team-1-800x800.jpg")
+                      require("../../assets/img/theme/team-1-800x800.png")
                         .default
                     }
                   />
