@@ -37,11 +37,15 @@ import {
             super(props)
             this.state = {
                 datas: [],
+                roles: [],
+                role_id: "",
+                role_name: "",
                 add_modal_show: false,
                 edit_modal_show: false,
                 id: "",
                 name: "",
-                description: "",
+                email: "",
+                phone: "",
                 offset: 0,
                 data: [],
                 perPage: 0,
@@ -97,14 +101,36 @@ import {
                     datas: response.data['data'],
                     total: response.data['total'],
                 })
+                this.getRole();
+            })
+            .catch(error => {
+                // console.log(error)
+                Swal.fire({
+                    title: 'Oops! Sepertinya ada yang salah',
+                    text: error,
+                    icon: 'error'
+                  })
+            })
+        }
+        getRole(){
+            axios.get(baseURL+'api/role', {
+                headers: {
+                    Authorization: 'Bearer ' + JSON.parse(localStorage.getItem('data')).token
+                }
+            })
+            .then(response => {
+                // console.log(JSON.stringify(response.data));
+                var all_data = JSON.stringify(response.data);
+                var data_json = JSON.parse(all_data);
+                this.setState({
+                    roles: response.data,
+                })
                 Swal.close()
             })
             .catch(error => {
                 // console.log(error)
-                Swal.close()
                 Swal.fire({
                     title: 'Oops! Sepertinya ada yang salah',
-                    text: error,
                     icon: 'error'
                   })
             })
@@ -115,6 +141,7 @@ import {
         confirmDelete(name, id){
             Swal.fire({
                 title: 'Yakin Menghapus "'+name+'" ?',
+                text: 'data pengguna ini akan dihapus secara permanet dan tidak dapat di kembalikan',
                 showCancelButton: true,
                 confirmButtonColor: '#ff2a00',
                 confirmButtonText: 'Ya, Hapus'
@@ -131,7 +158,7 @@ import {
                 showConfirmButton: false
             })
             
-            axios.delete(baseURL+'api/group_product/delete/'+id, {
+            axios.delete(baseURL+'api/user/delete/'+id, {
                 headers: {
                     Authorization: 'Bearer ' + JSON.parse(localStorage.getItem('data')).token
                 }
@@ -162,27 +189,25 @@ import {
                 showConfirmButton: false
             })
             
-            axios.get(baseURL+'api/group_product?id='+id, {
+            axios.get(baseURL+'api/user?id='+id, {
                 headers: {
                     Authorization: 'Bearer ' + JSON.parse(localStorage.getItem('data')).token
                 }
             })
             .then(response => {
-                console.log(JSON.stringify(response.data));
                 var string = JSON.stringify(response.data);
                 var res = JSON.parse(string);
-                Swal.close();
-                if(res['data']['description'] == null){
-                    var desc = "";
-                }else{
-                    var desc = res['data']['description'];
-                }
+                // console.log(res['data']['role']['name']);
                 this.setState({
                     id: res['data']['id'],
                     name: res['data']['name'],
-                    description: desc,
+                    email: res['data']['email'],
+                    phone: res['data']['phone'],
+                    role_id: res['data']['role_id'],
+                    role_name: res['data']['role']['name'],
                     edit_modal_show: true,
                 });
+                Swal.close();
             })
             .catch(error => {
                 // console.log(error.response.data.response.message.indonesia)
@@ -195,16 +220,24 @@ import {
         insertData(){
             if(this.state.name === ""){
                 Swal.fire('Nama Tidak Boleh Kosong')
+            }else if(this.state.email === ""){
+                Swal.fire('Email Tidak Boleh Kosong')
+            }else if(this.state.phone === ""){
+                Swal.fire('Telepon Tidak Boleh Kosong')
+            }else if(this.state.role_id === ""){
+                Swal.fire('Pilih RoleHarus Dipilih')
             }else{
                 Swal.fire({
-                    title: 'Menambahkan Grup Produk',
+                    title: 'Menambahkan Pengguna',
                     allowOutsideClick: false,
                     showConfirmButton: false
                 })
                 const formData = new FormData();
                 formData.append('name', this.state.name);
-                formData.append('description', this.state.description);
-                axios.post(baseURL+'api/group_product/add', formData, {
+                formData.append('email', this.state.email);
+                formData.append('phone', this.state.phone);
+                formData.append('role_id', this.state.role_id);
+                axios.post(baseURL+'api/user/add', formData, {
                     headers: {
                         Authorization: 'Bearer ' + JSON.parse(localStorage.getItem('data')).token
                     }
@@ -232,16 +265,24 @@ import {
         updateData(){
             if(this.state.name === ""){
                 Swal.fire('Nama Tidak Boleh Kosong')
+            }else if(this.state.email === ""){
+                Swal.fire('Email Tidak Boleh Kosong')
+            }else if(this.state.phone === ""){
+                Swal.fire('Telepon Tidak Boleh Kosong')
+            }else if(this.state.role_id === ""){
+                Swal.fire('Pilih RoleHarus Dipilih')
             }else{
                 Swal.fire({
-                    title: 'Memperbaharui Grup Produk',
+                    title: 'Memperbaharui Pengguna',
                     allowOutsideClick: false,
                     showConfirmButton: false
                 })
                 const formData = new FormData();
                 formData.append('name', this.state.name);
-                formData.append('description', this.state.description);
-                axios.post(baseURL+'api/group_product/update/'+this.state.id, formData, {
+                formData.append('email', this.state.email);
+                formData.append('phone', this.state.phone);
+                formData.append('role_id', this.state.role_id);
+                axios.post(baseURL+'api/user/update/'+this.state.id, formData, {
                     headers: {
                         Authorization: 'Bearer ' + JSON.parse(localStorage.getItem('data')).token
                     }
@@ -276,19 +317,29 @@ import {
                         color="warning"
                         onClick={() => this.setState({add_modal_show: true})}
                     >
-                        Tambah Grup Produk
+                        Tambah Pengguna
                     </Button>
 
 
                     <Modal show={this.state.add_modal_show} onHide={() => this.setState({add_modal_show: false})} centered>
                         <Modal.Header closeButton>
-                            <Modal.Title>Tambah Grup Produk</Modal.Title>
+                            <Modal.Title>Tambah Pengguna</Modal.Title>
                         </Modal.Header>
                         <Modal.Body>
                                 <FormGroup className="mb-3">
+                                    <InputGroup className="input-group-alternative" onChange={(e) => this.setState({role_id: e.target.value})}>
+                                    <select className="form-control">
+                                        <option value="">Pilih Role Pengguna</option>
+                                        {this.state.roles.map(role => (
+                                            <option value={role.id}>{role.name}</option>
+                                        ))}
+                                    </select>
+                                    </InputGroup>
+                                </FormGroup>
+                                <FormGroup className="mb-3">
                                     <InputGroup className="input-group-alternative">
                                     <Input
-                                        placeholder="Nama Grup Produk"
+                                        placeholder="Nama"
                                         type="text"
                                         onChange={(e) => this.setState({name: e.target.value})}
                                     />
@@ -297,10 +348,18 @@ import {
                                 <FormGroup className="mb-3">
                                     <InputGroup className="input-group-alternative">
                                     <Input
-                                        placeholder="Deskripsi Grup Produk (optional)"
-                                        type="textarea"
-                                        rows="4"
-                                        onChange={(e) => this.setState({description: e.target.value})}
+                                        placeholder="Email"
+                                        type="text"
+                                        onChange={(e) => this.setState({email: e.target.value})}
+                                    />
+                                    </InputGroup>
+                                </FormGroup>
+                                <FormGroup className="mb-3">
+                                    <InputGroup className="input-group-alternative">
+                                    <Input
+                                        placeholder="Telepon"
+                                        type="text"
+                                        onChange={(e) => this.setState({phone: e.target.value})}
                                     />
                                     </InputGroup>
                                 </FormGroup>
@@ -313,13 +372,23 @@ import {
 
                     <Modal show={this.state.edit_modal_show} onHide={() => this.setState({edit_modal_show: false})} centered>
                         <Modal.Header closeButton>
-                            <Modal.Title>Detail Grup Produk</Modal.Title>
+                            <Modal.Title>Detail Pengguna</Modal.Title>
                         </Modal.Header>
                         <Modal.Body>
+                        <FormGroup className="mb-3">
+                                    <InputGroup className="input-group-alternative" onChange={(e) => this.setState({role_id: e.target.value})}>
+                                    <select className="form-control">
+                                        <option value={this.state.role_id}>{this.state.role_name} (dipilih saat ini)</option>
+                                        {this.state.roles.map(role => (
+                                            <option value={role.id}>{role.name}</option>
+                                        ))}
+                                    </select>
+                                    </InputGroup>
+                                </FormGroup>
                                 <FormGroup className="mb-3">
                                     <InputGroup className="input-group-alternative">
                                     <Input
-                                        placeholder="Nama Grup Produk"
+                                        placeholder="Nama"
                                         type="text"
                                         value={this.state.name}
                                         onChange={(e) => this.setState({name: e.target.value})}
@@ -329,11 +398,20 @@ import {
                                 <FormGroup className="mb-3">
                                     <InputGroup className="input-group-alternative">
                                     <Input
-                                        placeholder="Deskripsi Grup Produk (optional)"
-                                        type="textarea"
-                                        row="4"
-                                        value={this.state.description}
-                                        onChange={(e) => this.setState({description: e.target.value})}
+                                        placeholder="Email"
+                                        type="text"
+                                        value={this.state.email}
+                                        onChange={(e) => this.setState({email: e.target.value})}
+                                    />
+                                    </InputGroup>
+                                </FormGroup>
+                                <FormGroup className="mb-3">
+                                    <InputGroup className="input-group-alternative">
+                                    <Input
+                                        placeholder="Telepon"
+                                        type="text"
+                                        value={this.state.phone}
+                                        onChange={(e) => this.setState({phone: e.target.value})}
                                     />
                                     </InputGroup>
                                 </FormGroup>
@@ -350,7 +428,7 @@ import {
                     <div className="col">
                         <Card className="shadow">
                         <CardHeader className="border-0">
-                            <h3 className="mb-0">{this.state.total} Grup Produk</h3>
+                            <h3 className="mb-0">{this.state.total} Pengguna</h3>
                         </CardHeader>
                         <Table className="align-items-center table-flush" responsive>
                             <thead className="thead-light">
