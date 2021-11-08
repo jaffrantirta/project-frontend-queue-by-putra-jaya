@@ -1,11 +1,12 @@
 {
-  "name": "argon-dashboard-react",
-  "version": "1.2.1",
-  "description": "React version of Argon Dashboard by Creative Tim",
+  "name": "car-wash",
+  "version": "1.0",
+  "homepage":"https://wash.postore.my.id",
+  "description": "Powered by Fran Web",
   "main": "index.js",
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/creativetimofficial/argon-dashboard-react.git"
+    "url": "git+https://github.com/jaffrantirta/antre_putra_frontend.git"
   },
   "keywords": [
     "react",
@@ -17,12 +18,11 @@
     "argon-dashboard",
     "argon-dashboard-react"
   ],
-  "author": "Creative Tim",
+  "author": "Fran Web",
   "license": "MIT",
   "bugs": {
     "url": "https://github.com/creativetimofficial/argon-dashboard-react/issues"
   },
-  "homepage": "https://demos.creative-tim.com/argon-dashboard-react/",
   "scripts": {
     "start": "react-scripts start",
     "build": "react-scripts build",
@@ -86,3 +86,4 @@
     "typescript": "4.3.5"
   }
 }
+
