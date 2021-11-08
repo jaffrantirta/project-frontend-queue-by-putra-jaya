@@ -166,291 +166,466 @@ export default class javascriptMap extends Component {
   }
 
   render() {
-    return (
-      <>
-        <UserHeader />
-        {/* Page content */}
-        <Container className="mt--7" fluid>
-          <Row>
-            <Col className="order-xl-1" xl="12">
-              <Card style={cardStyle}>
-                <CardHeader className="bg-white border-0">
-                  <Row className="align-items-center">
-                    <Col xs="8">
-                      <h3 className="mb-0">Akun saya</h3>
-                    </Col>
-                  </Row>
-                </CardHeader>
-                <CardBody>
-                  <Form>
-                    <h6 className="heading-small text-muted mb-4">
-                      Informasi Pengguna
-                    </h6>
-                    <div className="pl-lg-4">
-                      <Row>
-                        <Col lg="6">
-                          <FormGroup>
-                            <label
-                              className="form-control-label"
-                              htmlFor="input-username"
-                            >
-                              Nama
-                            </label>
-                            <Input
-                              onChange={(e) => this.setState({user_name: e.target.value})}
-                              className="form-control-alternative"
-                              defaultValue={JSON.parse(localStorage.getItem('data')).user.name}
-                              placeholder="Nama"
-                              type="text"
-                            />
-                          </FormGroup>
-                        </Col>
-                        <Col lg="6">
-                          <FormGroup>
-                            <label
-                              className="form-control-label"
-                              htmlFor="input-email"
-                            >
-                              Email
-                            </label>
-                            <Input
-                              onChange={(e) => this.setState({user_email: e.target.value})}
-                              className="form-control-alternative"
-                              defaultValue={JSON.parse(localStorage.getItem('data')).user.email}
-                              placeholder="Email"
-                              type="email"
-                            />
-                          </FormGroup>
-                        </Col>
-                      </Row>
-                      <Row>
-                        <Col lg="6">
-                          <FormGroup>
-                            <label
-                              className="form-control-label"
-                              htmlFor="input-first-name"
-                            >
-                              Nomor Telepon
-                            </label>
-                            <Input
-                             onChange={(e) => this.setState({user_phone: e.target.value})}
-                              className="form-control-alternative"
-                              defaultValue={JSON.parse(localStorage.getItem('data')).user.phone}
-                              placeholder="No. Telepon"
-                              type="number"
-                            />
-                          </FormGroup>
-                        </Col>
-                      </Row>
-                    </div>
-                    <hr className="my-4" />
-                    {/* Address */}
-                    <h6 className="heading-small text-muted mb-4">
-                      Informasi Toko
-                    </h6>
-                    <div className="pl-lg-4">
-                      <Row>
-                        <Col lg="6">
-                          <FormGroup>
-                            <label
-                              className="form-control-label"
-                              htmlFor="input-username"
-                            >
-                              Nama Toko
-                            </label>
-                            <Input
-                            onChange={(e) => this.setState({shop_name: e.target.value})}
-                              className="form-control-alternative"
-                              defaultValue={JSON.parse(localStorage.getItem('data')).shop_user[0].shop.name}
-                              placeholder="Nama Toko"
-                              type="text"
-                            />
-                          </FormGroup>
-                        </Col>
-                        <Col lg="6">
-                          <FormGroup>
-                            <label
-                              className="form-control-label"
-                              htmlFor="input-email"
-                            >
-                              Alamat Toko
-                            </label>
-                            <Input
-                              onChange={(e) => this.setState({shop_address: e.target.value})}
-                              className="form-control-alternative"
-                              defaultValue={JSON.parse(localStorage.getItem('data')).shop_user[0].shop.address}
-                              placeholder="Alamat Toko"
-                              type="text"
-                            />
-                          </FormGroup>
-                        </Col>
-                      </Row>
-                      <Row>
-                        <Col lg="6">
-                          <FormGroup>
-                            <label
-                              className="form-control-label"
-                              htmlFor="input-first-name"
-                            >
-                              Nomor Telepon Toko
-                            </label>
-                            <Input
-                              onChange={(e) => this.setState({shop_phone: e.target.value})}
-                              className="form-control-alternative"
-                              defaultValue={JSON.parse(localStorage.getItem('data')).shop_user[0].shop.phone}
-                              placeholder="No. Telepon Toko"
-                              type="number"
-                            />
-                          </FormGroup>
-                        </Col>
-                        <Col lg="6">
-                          <FormGroup>
-                            <label
-                              className="form-control-label"
-                              htmlFor="input-last-name"
-                            >
-                              Email Toko
-                            </label>
-                            <Input
-                              onChange={(e) => this.setState({shop_email: e.target.value})}
-                              className="form-control-alternative"
-                              defaultValue={JSON.parse(localStorage.getItem('data')).shop_user[0].shop.email}
-                              placeholder="Email Toko"
-                              type="email"
-                            />
-                          </FormGroup>
-                        </Col>
-                      </Row>
-                      <Row>
-                        <Col lg="6">
-                          <FormGroup>
-                            <label
-                              className="form-control-label"
-                              htmlFor="input-first-name"
-                            >
-                              Website Toko
-                            </label>
-                            <Input
-                              onChange={(e) => this.setState({shop_website: e.target.value})}
-                              className="form-control-alternative"
-                              defaultValue={JSON.parse(localStorage.getItem('data')).shop_user[0].shop.website}
-                              placeholder="No. Telepon Toko"
-                              type="website"
-                            />
-                          </FormGroup>
-                        </Col>
-                        <Col lg="6">
-                          <FormGroup>
-                            <label
-                              className="form-control-label"
-                              htmlFor="input-last-name"
-                            >
-                              Kode Antrian Toko
-                            </label>
-                            <Input
-                              onChange={(e) => this.setState({shop_key_code: e.target.value})}
-                              className="form-control-alternative"
-                              defaultValue={JSON.parse(localStorage.getItem('data')).shop_user[0].shop.key_code}
-                              placeholder="Email Toko"
-                              type="email"
-                            />
-                          </FormGroup>
-                        </Col>
-                      </Row>
-                    </div>
-                  </Form>
-                </CardBody>
-                <CardFooter>
-                  <Button onClick={() => this.saveChange()}>Simpan Perubahan</Button>
-                </CardFooter>
-              </Card>
-            </Col>
-
-            <Col className="order-xl-1" xl="12">
-              <Card style={cardStyle}>
-                <CardHeader className="bg-white border-0">
-                  <Row className="align-items-center">
-                    <Col xs="8">
-                      <h3 className="mb-0">Ganti Password</h3>
-                    </Col>
-                  </Row>
-                </CardHeader>
-                <CardBody>
-                  <Form>
-                    <h6 className="heading-small text-muted mb-4">
-                      Passowrd Lama
-                    </h6>
-                    <div className="pl-lg-4">
-                      <Row>
-                        <Col lg="6">
-                          <FormGroup>
-                            <label
-                              className="form-control-label"
-                              htmlFor="input-username"
-                            >
-                              Passowrd Lama
-                            </label>
-                            <Input
-                              onChange={(e) => this.setState({old_password: e.target.value})}
-                              className="form-control-alternative"
-                              placeholder="Masukan Password Lama"
-                              type="password"
-                            />
-                          </FormGroup>
-                        </Col>
-                      </Row>
-                    </div>
-                    <hr className="my-4" />
-                    {/* Address */}
-                    <h6 className="heading-small text-muted mb-4">
-                      Password Baru
-                    </h6>
-                    <div className="pl-lg-4">
-                      <Row>
-                        <Col lg="6">
-                          <FormGroup>
-                            <label
-                              className="form-control-label"
-                              htmlFor="input-username"
-                            >
-                              Password Baru
-                            </label>
-                            <Input
-                            onChange={(e) => this.setState({new_password: e.target.value})}
-                              className="form-control-alternative"
-                              placeholder="Masukan Password Baru"
-                              type="password"
-                            />
-                          </FormGroup>
-                        </Col>
-                        <Col lg="6">
-                          <FormGroup>
-                            <label
-                              className="form-control-label"
-                              htmlFor="input-email"
-                            >
-                              Konfirmasi Password Baru
-                            </label>
-                            <Input
-                              onChange={(e) => this.setState({new_confirm_password: e.target.value})}
-                              className="form-control-alternative"
-                              placeholder="Masukan Password Baru Konfirmasi"
-                              type="password"
-                            />
-                          </FormGroup>
-                        </Col>
-                      </Row>
-                    </div>
-                  </Form>
-                </CardBody>
-                <CardFooter>
-                  <Button onClick={() => this.changePassword()}>Ganti Password</Button>
-                </CardFooter>
-              </Card>
-            </Col>
-          </Row>
-        </Container>
-      </>
-    );
+    if(JSON.parse(localStorage.getItem('data')).user.role_id === 1){
+      return (
+        <>
+          <UserHeader />
+          {/* Page content */}
+          <Container className="mt--7" fluid>
+            <Row>
+              <Col className="order-xl-1" xl="12">
+                <Card style={cardStyle}>
+                  <CardHeader className="bg-white border-0">
+                    <Row className="align-items-center">
+                      <Col xs="8">
+                        <h3 className="mb-0">Akun saya</h3>
+                      </Col>
+                    </Row>
+                  </CardHeader>
+                  <CardBody>
+                    <Form>
+                      <h6 className="heading-small text-muted mb-4">
+                        Informasi Pengguna
+                      </h6>
+                      <div className="pl-lg-4">
+                        <Row>
+                          <Col lg="6">
+                            <FormGroup>
+                              <label
+                                className="form-control-label"
+                                htmlFor="input-username"
+                              >
+                                Nama
+                              </label>
+                              <Input
+                                onChange={(e) => this.setState({user_name: e.target.value})}
+                                className="form-control-alternative"
+                                defaultValue={JSON.parse(localStorage.getItem('data')).user.name}
+                                placeholder="Nama"
+                                type="text"
+                              />
+                            </FormGroup>
+                          </Col>
+                          <Col lg="6">
+                            <FormGroup>
+                              <label
+                                className="form-control-label"
+                                htmlFor="input-email"
+                              >
+                                Email
+                              </label>
+                              <Input
+                                onChange={(e) => this.setState({user_email: e.target.value})}
+                                className="form-control-alternative"
+                                defaultValue={JSON.parse(localStorage.getItem('data')).user.email}
+                                placeholder="Email"
+                                type="email"
+                              />
+                            </FormGroup>
+                          </Col>
+                        </Row>
+                        <Row>
+                          <Col lg="6">
+                            <FormGroup>
+                              <label
+                                className="form-control-label"
+                                htmlFor="input-first-name"
+                              >
+                                Nomor Telepon
+                              </label>
+                              <Input
+                               onChange={(e) => this.setState({user_phone: e.target.value})}
+                                className="form-control-alternative"
+                                defaultValue={JSON.parse(localStorage.getItem('data')).user.phone}
+                                placeholder="No. Telepon"
+                                type="number"
+                              />
+                            </FormGroup>
+                          </Col>
+                        </Row>
+                      </div>
+                      <hr className="my-4" />
+                      {/* Address */}
+                      <h6 className="heading-small text-muted mb-4">
+                        Informasi Toko
+                      </h6>
+                      <div className="pl-lg-4">
+                        <Row>
+                          <Col lg="6">
+                            <FormGroup>
+                              <label
+                                className="form-control-label"
+                                htmlFor="input-username"
+                              >
+                                Nama Toko
+                              </label>
+                              <Input
+                              onChange={(e) => this.setState({shop_name: e.target.value})}
+                                className="form-control-alternative"
+                                defaultValue={JSON.parse(localStorage.getItem('data')).shop_user[0].shop.name}
+                                placeholder="Nama Toko"
+                                type="text"
+                              />
+                            </FormGroup>
+                          </Col>
+                          <Col lg="6">
+                            <FormGroup>
+                              <label
+                                className="form-control-label"
+                                htmlFor="input-email"
+                              >
+                                Alamat Toko
+                              </label>
+                              <Input
+                                onChange={(e) => this.setState({shop_address: e.target.value})}
+                                className="form-control-alternative"
+                                defaultValue={JSON.parse(localStorage.getItem('data')).shop_user[0].shop.address}
+                                placeholder="Alamat Toko"
+                                type="text"
+                              />
+                            </FormGroup>
+                          </Col>
+                        </Row>
+                        <Row>
+                          <Col lg="6">
+                            <FormGroup>
+                              <label
+                                className="form-control-label"
+                                htmlFor="input-first-name"
+                              >
+                                Nomor Telepon Toko
+                              </label>
+                              <Input
+                                onChange={(e) => this.setState({shop_phone: e.target.value})}
+                                className="form-control-alternative"
+                                defaultValue={JSON.parse(localStorage.getItem('data')).shop_user[0].shop.phone}
+                                placeholder="No. Telepon Toko"
+                                type="number"
+                              />
+                            </FormGroup>
+                          </Col>
+                          <Col lg="6">
+                            <FormGroup>
+                              <label
+                                className="form-control-label"
+                                htmlFor="input-last-name"
+                              >
+                                Email Toko
+                              </label>
+                              <Input
+                                onChange={(e) => this.setState({shop_email: e.target.value})}
+                                className="form-control-alternative"
+                                defaultValue={JSON.parse(localStorage.getItem('data')).shop_user[0].shop.email}
+                                placeholder="Email Toko"
+                                type="email"
+                              />
+                            </FormGroup>
+                          </Col>
+                        </Row>
+                        <Row>
+                          <Col lg="6">
+                            <FormGroup>
+                              <label
+                                className="form-control-label"
+                                htmlFor="input-first-name"
+                              >
+                                Website Toko
+                              </label>
+                              <Input
+                                onChange={(e) => this.setState({shop_website: e.target.value})}
+                                className="form-control-alternative"
+                                defaultValue={JSON.parse(localStorage.getItem('data')).shop_user[0].shop.website}
+                                placeholder="No. Telepon Toko"
+                                type="website"
+                              />
+                            </FormGroup>
+                          </Col>
+                          <Col lg="6">
+                            <FormGroup>
+                              <label
+                                className="form-control-label"
+                                htmlFor="input-last-name"
+                              >
+                                Kode Antrian Toko
+                              </label>
+                              <Input
+                                onChange={(e) => this.setState({shop_key_code: e.target.value})}
+                                className="form-control-alternative"
+                                defaultValue={JSON.parse(localStorage.getItem('data')).shop_user[0].shop.key_code}
+                                placeholder="Email Toko"
+                                type="email"
+                              />
+                            </FormGroup>
+                          </Col>
+                        </Row>
+                      </div>
+                    </Form>
+                  </CardBody>
+                  <CardFooter>
+                    <Button onClick={() => this.saveChange()}>Simpan Perubahan</Button>
+                  </CardFooter>
+                </Card>
+              </Col>
+  
+              <Col className="order-xl-1" xl="12">
+                <Card style={cardStyle}>
+                  <CardHeader className="bg-white border-0">
+                    <Row className="align-items-center">
+                      <Col xs="8">
+                        <h3 className="mb-0">Ganti Password</h3>
+                      </Col>
+                    </Row>
+                  </CardHeader>
+                  <CardBody>
+                    <Form>
+                      <h6 className="heading-small text-muted mb-4">
+                        Passowrd Lama
+                      </h6>
+                      <div className="pl-lg-4">
+                        <Row>
+                          <Col lg="6">
+                            <FormGroup>
+                              <label
+                                className="form-control-label"
+                                htmlFor="input-username"
+                              >
+                                Passowrd Lama
+                              </label>
+                              <Input
+                                onChange={(e) => this.setState({old_password: e.target.value})}
+                                className="form-control-alternative"
+                                placeholder="Masukan Password Lama"
+                                type="password"
+                              />
+                            </FormGroup>
+                          </Col>
+                        </Row>
+                      </div>
+                      <hr className="my-4" />
+                      {/* Address */}
+                      <h6 className="heading-small text-muted mb-4">
+                        Password Baru
+                      </h6>
+                      <div className="pl-lg-4">
+                        <Row>
+                          <Col lg="6">
+                            <FormGroup>
+                              <label
+                                className="form-control-label"
+                                htmlFor="input-username"
+                              >
+                                Password Baru
+                              </label>
+                              <Input
+                              onChange={(e) => this.setState({new_password: e.target.value})}
+                                className="form-control-alternative"
+                                placeholder="Masukan Password Baru"
+                                type="password"
+                              />
+                            </FormGroup>
+                          </Col>
+                          <Col lg="6">
+                            <FormGroup>
+                              <label
+                                className="form-control-label"
+                                htmlFor="input-email"
+                              >
+                                Konfirmasi Password Baru
+                              </label>
+                              <Input
+                                onChange={(e) => this.setState({new_confirm_password: e.target.value})}
+                                className="form-control-alternative"
+                                placeholder="Masukan Password Baru Konfirmasi"
+                                type="password"
+                              />
+                            </FormGroup>
+                          </Col>
+                        </Row>
+                      </div>
+                    </Form>
+                  </CardBody>
+                  <CardFooter>
+                    <Button onClick={() => this.changePassword()}>Ganti Password</Button>
+                  </CardFooter>
+                </Card>
+              </Col>
+            </Row>
+          </Container>
+        </>
+      );
+    }else{
+      return (
+        <>
+          <UserHeader />
+          {/* Page content */}
+          <Container className="mt--7" fluid>
+            <Row>
+              <Col className="order-xl-1" xl="12">
+                <Card style={cardStyle}>
+                  <CardHeader className="bg-white border-0">
+                    <Row className="align-items-center">
+                      <Col xs="8">
+                        <h3 className="mb-0">Akun saya</h3>
+                      </Col>
+                    </Row>
+                  </CardHeader>
+                  <CardBody>
+                    <Form>
+                      <h6 className="heading-small text-muted mb-4">
+                        Informasi Pengguna
+                      </h6>
+                      <div className="pl-lg-4">
+                        <Row>
+                          <Col lg="6">
+                            <FormGroup>
+                              <label
+                                className="form-control-label"
+                                htmlFor="input-username"
+                              >
+                                Nama
+                              </label>
+                              <Input
+                                onChange={(e) => this.setState({user_name: e.target.value})}
+                                className="form-control-alternative"
+                                defaultValue={JSON.parse(localStorage.getItem('data')).user.name}
+                                placeholder="Nama"
+                                type="text"
+                              />
+                            </FormGroup>
+                          </Col>
+                          <Col lg="6">
+                            <FormGroup>
+                              <label
+                                className="form-control-label"
+                                htmlFor="input-email"
+                              >
+                                Email
+                              </label>
+                              <Input
+                                onChange={(e) => this.setState({user_email: e.target.value})}
+                                className="form-control-alternative"
+                                defaultValue={JSON.parse(localStorage.getItem('data')).user.email}
+                                placeholder="Email"
+                                type="email"
+                              />
+                            </FormGroup>
+                          </Col>
+                        </Row>
+                        <Row>
+                          <Col lg="6">
+                            <FormGroup>
+                              <label
+                                className="form-control-label"
+                                htmlFor="input-first-name"
+                              >
+                                Nomor Telepon
+                              </label>
+                              <Input
+                               onChange={(e) => this.setState({user_phone: e.target.value})}
+                                className="form-control-alternative"
+                                defaultValue={JSON.parse(localStorage.getItem('data')).user.phone}
+                                placeholder="No. Telepon"
+                                type="number"
+                              />
+                            </FormGroup>
+                          </Col>
+                        </Row>
+                      </div>
+                    </Form>
+                  </CardBody>
+                  <CardFooter>
+                    <Button onClick={() => this.saveChange()}>Simpan Perubahan</Button>
+                  </CardFooter>
+                </Card>
+              </Col>
+  
+              <Col className="order-xl-1" xl="12">
+                <Card style={cardStyle}>
+                  <CardHeader className="bg-white border-0">
+                    <Row className="align-items-center">
+                      <Col xs="8">
+                        <h3 className="mb-0">Ganti Password</h3>
+                      </Col>
+                    </Row>
+                  </CardHeader>
+                  <CardBody>
+                    <Form>
+                      <h6 className="heading-small text-muted mb-4">
+                        Passowrd Lama
+                      </h6>
+                      <div className="pl-lg-4">
+                        <Row>
+                          <Col lg="6">
+                            <FormGroup>
+                              <label
+                                className="form-control-label"
+                                htmlFor="input-username"
+                              >
+                                Passowrd Lama
+                              </label>
+                              <Input
+                                onChange={(e) => this.setState({old_password: e.target.value})}
+                                className="form-control-alternative"
+                                placeholder="Masukan Password Lama"
+                                type="password"
+                              />
+                            </FormGroup>
+                          </Col>
+                        </Row>
+                      </div>
+                      <hr className="my-4" />
+                      {/* Address */}
+                      <h6 className="heading-small text-muted mb-4">
+                        Password Baru
+                      </h6>
+                      <div className="pl-lg-4">
+                        <Row>
+                          <Col lg="6">
+                            <FormGroup>
+                              <label
+                                className="form-control-label"
+                                htmlFor="input-username"
+                              >
+                                Password Baru
+                              </label>
+                              <Input
+                              onChange={(e) => this.setState({new_password: e.target.value})}
+                                className="form-control-alternative"
+                                placeholder="Masukan Password Baru"
+                                type="password"
+                              />
+                            </FormGroup>
+                          </Col>
+                          <Col lg="6">
+                            <FormGroup>
+                              <label
+                                className="form-control-label"
+                                htmlFor="input-email"
+                              >
+                                Konfirmasi Password Baru
+                              </label>
+                              <Input
+                                onChange={(e) => this.setState({new_confirm_password: e.target.value})}
+                                className="form-control-alternative"
+                                placeholder="Masukan Password Baru Konfirmasi"
+                                type="password"
+                              />
+                            </FormGroup>
+                          </Col>
+                        </Row>
+                      </div>
+                    </Form>
+                  </CardBody>
+                  <CardFooter>
+                    <Button onClick={() => this.changePassword()}>Ganti Password</Button>
+                  </CardFooter>
+                </Card>
+              </Col>
+            </Row>
+          </Container>
+        </>
+      );
+    }
+    
   }
 }

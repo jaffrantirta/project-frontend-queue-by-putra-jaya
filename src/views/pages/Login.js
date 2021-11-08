@@ -17,6 +17,9 @@ import React, { useState } from "react";
 import Swal from 'sweetalert2';
 import { baseURL } from "../../utils/BaseUrl.js";
 
+const textColor = {
+  color: '#ffffff'
+};
 function Login() {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
@@ -59,16 +62,11 @@ function Login() {
         <Card className="bg-secondary shadow border-0">
           <CardBody className="px-lg-5 py-lg-5">
             <div className="text-center text-muted mb-4">
-              <small>Login</small>
+              <h4 style={textColor}>Silahkan Login</h4>
             </div>
             <form onSubmit={LoginHandler}>
               <FormGroup className="mb-3">
                 <InputGroup className="input-group-alternative">
-                  <InputGroupAddon addonType="prepend">
-                    <InputGroupText>
-                      <i className="ni ni-email-83" />
-                    </InputGroupText>
-                  </InputGroupAddon>
                   <Input
                     placeholder="Email"
                     type="email"
@@ -79,11 +77,6 @@ function Login() {
               </FormGroup>
               <FormGroup>
                 <InputGroup className="input-group-alternative">
-                  <InputGroupAddon addonType="prepend">
-                    <InputGroupText>
-                      <i className="ni ni-lock-circle-open" />
-                    </InputGroupText>
-                  </InputGroupAddon>
                   <Input
                     placeholder="Password"
                     type="password"
@@ -94,7 +87,7 @@ function Login() {
               </FormGroup>
               
               <div className="text-center">
-                <button type="submit" className="btn btn-primary">Login</button>
+                <button type="submit" className="btn btn-primary col-12">Login</button>
               </div>
             </form>
           </CardBody>
@@ -112,8 +105,7 @@ function Login() {
           <Col className="text-right" xs="6">
             <a
               className="text-light"
-              href="#pablo"
-              onClick={(e) => e.preventDefault()}
+              href="/auth/register"
             >
               <small>Buat Akun</small>
             </a>

@@ -107,7 +107,7 @@ import {
                 // console.log(error)
                 Swal.fire({
                     title: 'Oops! Sepertinya ada yang salah',
-                    text: error,
+                    text: error.response.data.response.message.indonesia,
                     icon: 'error'
                   })
             })
@@ -131,6 +131,7 @@ import {
                 // console.log(error)
                 Swal.fire({
                     title: 'Oops! Sepertinya ada yang salah',
+                    text: error.response.data.response.message.indonesia,
                     icon: 'error'
                   })
             })
@@ -141,7 +142,7 @@ import {
         confirmDelete(name, id){
             Swal.fire({
                 title: 'Yakin Menghapus "'+name+'" ?',
-                text: 'data pengguna ini akan dihapus secara permanet dan tidak dapat di kembalikan',
+                text: 'data pengguna ini akan dihapus secara permanen dan tidak dapat di kembalikan',
                 showCancelButton: true,
                 confirmButtonColor: '#ff2a00',
                 confirmButtonText: 'Ya, Hapus'
@@ -177,7 +178,7 @@ import {
                 // console.log(error.response.data.response.message.indonesia)
                 Swal.fire({
                     title: 'Oops! Sepertinya ada yang salah',
-                    text: error,
+                    text: error.response.data.response.message.indonesia,
                     icon: 'error'
                 })
             })
@@ -257,6 +258,7 @@ import {
                     // console.log(error.response.data.response.message.indonesia)
                     Swal.fire({
                         title: 'Oops! Sepertinya ada yang salah',
+                        text: error.response.data.response.message.indonesia,
                         icon: 'error'
                     })
                 })
@@ -302,6 +304,7 @@ import {
                     // console.log(error.response.data.response.message.indonesia)
                     Swal.fire({
                         title: 'Oops! Sepertinya ada yang salah',
+                        text: error.response.data.response.message.indonesia,
                         icon: 'error'
                     })
                 })

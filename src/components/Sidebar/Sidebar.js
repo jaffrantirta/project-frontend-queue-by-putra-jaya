@@ -51,6 +51,10 @@ import {
   Row,
   Col,
 } from "reactstrap";
+import axios from 'axios';
+import Swal from 'sweetalert2';
+import { baseURL } from "../../utils/BaseUrl.js";
+import React, { Component } from "react";
 
 var ps;
 
@@ -101,6 +105,42 @@ const Sidebar = (props) => {
     };
   }
 
+  const logout = () => {
+    console.log('halo');
+    Swal.fire({
+      title: 'Yakin keluar ?',
+      showCancelButton: true,
+      confirmButtonText: 'Keluar',
+      confirmButtonColor: '#ff2a00'
+    }).then((result) => {
+      if(result.isConfirmed){
+        Swal.fire({
+          title: 'Logging Out',
+          allowOutsideClick: false,
+          showConfirmButton: false
+        })
+        axios.get(baseURL+'api/logout', {
+            headers: {
+                Authorization: 'Bearer ' + JSON.parse(localStorage.getItem('data')).token
+            }
+        })
+        .then(response => {
+          localStorage.removeItem('is_logged_in');
+          localStorage.removeItem('data');
+          window.location.reload();
+        })
+        .catch(error => {
+            // console.log(error)
+            Swal.close()
+            Swal.fire({
+                title: 'Oops! Sepertinya ada yang salah',
+                icon: 'error'
+              })
+        })
+      }
+    });
+  }
+
   return (
     <Navbar
       className="navbar-vertical fixed-left navbar-light bg-white"
@@ -122,7 +162,7 @@ const Sidebar = (props) => {
           {/* </NavbarBrand> */}
         {/* User */}
         <Nav className="align-items-center d-md-none">
-          <UncontrolledDropdown nav>
+          {/* <UncontrolledDropdown nav>
             <DropdownToggle nav className="nav-link-icon">
               <i className="ni ni-bell-55" />
             </DropdownToggle>
@@ -136,7 +176,7 @@ const Sidebar = (props) => {
               <DropdownItem divider />
               <DropdownItem>Something else here</DropdownItem>
             </DropdownMenu>
-          </UncontrolledDropdown>
+          </UncontrolledDropdown> */}
           <UncontrolledDropdown nav>
             <DropdownToggle nav>
               <Media className="align-items-center">
@@ -152,27 +192,7 @@ const Sidebar = (props) => {
               </Media>
             </DropdownToggle>
             <DropdownMenu className="dropdown-menu-arrow" right>
-              <DropdownItem className="noti-title" header tag="div">
-                <h6 className="text-overflow m-0">Welcome!</h6>
-              </DropdownItem>
-              <DropdownItem to="/admin/user-profile" tag={Link}>
-                <i className="ni ni-single-02" />
-                <span>My profile</span>
-              </DropdownItem>
-              <DropdownItem to="/admin/user-profile" tag={Link}>
-                <i className="ni ni-settings-gear-65" />
-                <span>Settings</span>
-              </DropdownItem>
-              <DropdownItem to="/admin/user-profile" tag={Link}>
-                <i className="ni ni-calendar-grid-58" />
-                <span>Activity</span>
-              </DropdownItem>
-              <DropdownItem to="/admin/user-profile" tag={Link}>
-                <i className="ni ni-support-16" />
-                <span>Support</span>
-              </DropdownItem>
-              <DropdownItem divider />
-              <DropdownItem href="#pablo" onClick={(e) => e.preventDefault()}>
+              <DropdownItem href="#pablo" onClick={logout}>
                 <i className="ni ni-user-run" />
                 <span>Logout</span>
               </DropdownItem>

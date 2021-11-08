@@ -35,12 +35,12 @@ const AdminNavbar = () => {
       <Navbar className="navbar-top navbar-horizontal navbar-dark" expand="md">
         <Container className="px-4">
           <NavbarBrand to="/" tag={Link}>
-            <img
+            {/* <img
               alt="..."
               src={
                 require("../../assets/img/brand/argon-react-white.png").default
               }
-            />
+            /> */}
           </NavbarBrand>
           <button className="navbar-toggler" id="navbar-collapse-main">
             <span className="navbar-toggler-icon" />
@@ -50,13 +50,13 @@ const AdminNavbar = () => {
               <Row>
                 <Col className="collapse-brand" xs="6">
                   <Link to="/">
-                    <img
+                    {/* <img
                       alt="..."
                       src={
                         require("../../assets/img/brand/argon-react.png")
                           .default
                       }
-                    />
+                    /> */}
                   </Link>
                 </Col>
                 <Col className="collapse-close" xs="6">

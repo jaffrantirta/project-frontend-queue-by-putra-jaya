@@ -17,6 +17,9 @@ import React, { useState } from "react";
 import Swal from 'sweetalert2';
 import { baseURL } from "../../utils/BaseUrl.js";
 
+const textColor = {
+  color: '#ffffff'
+};
 
 function Register() {
 
@@ -69,112 +72,67 @@ function Register() {
         <Card className="bg-secondary shadow border-0">
           <CardBody className="px-lg-5 py-lg-5">
             <div className="text-center text-muted mb-4">
-              <small>Isi form untuk mendaftarkan Toko Anda</small>
+              <h4 style={textColor}>Isi form untuk mendaftarkan Toko Anda</h4>
             </div>
 
             <form onSubmit={registerHandler}>
               <FormGroup>
                 <InputGroup className="input-group-alternative mb-3">
-                  <InputGroupAddon addonType="prepend">
-                    <InputGroupText>
-                      <i className="ni ni-hat-3" />
-                    </InputGroupText>
-                  </InputGroupAddon>
-                  <Input placeholder="Name" type="text" value={user_name} onChange={(e) => setUserName(e.target.value)}/>
+                  <Input placeholder="Nama" type="text" value={user_name} onChange={(e) => setUserName(e.target.value)}/>
                 </InputGroup>
               </FormGroup>
 
               <FormGroup>
                 <InputGroup className="input-group-alternative mb-3">
-                  <InputGroupAddon addonType="prepend">
-                    <InputGroupText>
-                      <i className="ni ni-hat-3" />
-                    </InputGroupText>
-                  </InputGroupAddon>
                   <Input placeholder="Email" type="email" value={email} onChange={(e) => setEmail(e.target.value)}/>
                 </InputGroup>
               </FormGroup>
 
               <FormGroup>
                 <InputGroup className="input-group-alternative mb-3">
-                  <InputGroupAddon addonType="prepend">
-                    <InputGroupText>
-                      <i className="ni ni-hat-3" />
-                    </InputGroupText>
-                  </InputGroupAddon>
                   <Input placeholder="Phone" type="number" value={user_phone} onChange={(e) => setUserPhone(e.target.value)}/>
                 </InputGroup>
               </FormGroup>
 
               <FormGroup>
                 <InputGroup className="input-group-alternative mb-3">
-                  <InputGroupAddon addonType="prepend">
-                    <InputGroupText>
-                      <i className="ni ni-hat-3" />
-                    </InputGroupText>
-                  </InputGroupAddon>
                   <Input placeholder="Nama Toko" type="text" value={shop_name} onChange={(e) => setShopName(e.target.value)}/>
                 </InputGroup>
               </FormGroup>
 
               <FormGroup>
                 <InputGroup className="input-group-alternative mb-3">
-                  <InputGroupAddon addonType="prepend">
-                    <InputGroupText>
-                      <i className="ni ni-hat-3" />
-                    </InputGroupText>
-                  </InputGroupAddon>
                   <Input placeholder="Alamat Toko" type="text" value={shop_address} onChange={(e) => setShopAddress(e.target.value)}/>
                 </InputGroup>
               </FormGroup>
 
               <FormGroup>
                 <InputGroup className="input-group-alternative mb-3">
-                  <InputGroupAddon addonType="prepend">
-                    <InputGroupText>
-                      <i className="ni ni-hat-3" />
-                    </InputGroupText>
-                  </InputGroupAddon>
                   <Input placeholder="Nomor Telepon Toko" type="number" value={shop_phone} onChange={(e) => setShopPhone(e.target.value)}/>
                 </InputGroup>
               </FormGroup>
 
               <FormGroup>
                 <InputGroup className="input-group-alternative mb-3">
-                  <InputGroupAddon addonType="prepend">
-                    <InputGroupText>
-                      <i className="ni ni-hat-3" />
-                    </InputGroupText>
-                  </InputGroupAddon>
                   <Input placeholder="Email Toko" type="email" value={shop_email} onChange={(e) => setShopEmail(e.target.value)}/>
                 </InputGroup>
               </FormGroup>
 
               <FormGroup>
                 <InputGroup className="input-group-alternative mb-3">
-                  <InputGroupAddon addonType="prepend">
-                    <InputGroupText>
-                      <i className="ni ni-hat-3" />
-                    </InputGroupText>
-                  </InputGroupAddon>
                   <Input placeholder="Website Toko" type="text" value={shop_website} onChange={(e) => setShopWebsite(e.target.value)}/>
                 </InputGroup>
               </FormGroup>
 
               <FormGroup>
                 <InputGroup className="input-group-alternative mb-3">
-                  <InputGroupAddon addonType="prepend">
-                    <InputGroupText>
-                      <i className="ni ni-hat-3" />
-                    </InputGroupText>
-                  </InputGroupAddon>
                   <Input placeholder="Kode Pemanggilan Antrian" type="text" value={shop_key_code} onChange={(e) => setShopKeyCode(e.target.value)}/>
                 </InputGroup>
               </FormGroup>
 
 
               
-              <Row className="my-4">
+              {/* <Row className="my-4">
                 <Col xs="12">
                   <div className="custom-control custom-control-alternative custom-checkbox">
                     <input
@@ -195,9 +153,9 @@ function Register() {
                     </label>
                   </div>
                 </Col>
-              </Row>
+              </Row> */}
               <div className="text-center">
-                <button type="submit" className="btn btn-primary">REGISTER</button>
+                <button type="submit" className="col-12 btn btn-primary">REGISTRASI</button>
               </div>
             </form>
             

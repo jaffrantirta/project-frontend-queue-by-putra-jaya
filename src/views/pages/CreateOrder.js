@@ -54,6 +54,7 @@ import {
                 part_5_modal: false,
                 part_6_modal: false,
                 part_7_modal: false,
+                modal_test: false,
                 order_number: "",
                 customer_name: "",
                 license_plate: "",
@@ -362,12 +363,44 @@ import {
             this.setState({part_7_modal: false});
             this.clearState();
         }
+        
         render() {
             if(localStorage.getItem('on_serve')){
 
             }else{
                 return(
                     <>
+                    <Modal show={this.state.modal_test} onHide={() => this.setState({modal_test: false})} centered>
+                        <Modal.Header closeButton>
+                            <Modal.Title>Masukan Identitas Pelanggan</Modal.Title>
+                        </Modal.Header>
+                        <Modal.Body>
+                                <FormGroup className="mb-3">
+                                    <InputGroup className="input-group-alternative">
+                                    <Input
+                                        placeholder="Nama Pelanggan"
+                                        type="text"
+                                        value={this.state.customer_name}
+                                        onChange={(e) => this.setState({customer_name: e.target.value})}
+                                    />
+                                    </InputGroup>
+                                </FormGroup>
+                                <FormGroup className="mb-3">
+                                    <InputGroup className="input-group-alternative">
+                                    <Input
+                                        placeholder="Nomor Plat Kendaraan"
+                                        type="text"
+                                        value={this.state.license_plate}
+                                        onChange={(e) => this.setState({license_plate: e.target.value})}
+                                    />
+                                    </InputGroup>
+                                </FormGroup>
+                                <div className="text-center">
+                                    <button onClick={this.checkCustomerIdentity.bind(this)} className="btn btn-primary">Selanjutnya</button>
+                                </div>
+                        </Modal.Body>
+                    </Modal>
+
                     <Modal show={this.state.part_1_modal} onHide={() => this.setState({part_1_modal: false})} centered>
                         <Modal.Header closeButton>
                             <Modal.Title>Masukan Identitas Pelanggan</Modal.Title>
@@ -705,17 +738,27 @@ import {
                                 <div className="col-lg-6">
                                     <div className="card1 pb-5">
                                         <div className="row">
-                                            <img src="https://i.imgur.com/CXQmsmF.png" className="logo"/>
+                                            <img width="100px" height="100px" style={{marginLeft: 20}} src={
+                                                    require("../../assets/img/theme/logo.jpg")
+                                                        .default
+                                                    }/>
                                         </div>
                                         <div className="row px-3 justify-content-center mt-4 mb-5 border-line">
-                                            <img src="https://i.imgur.com/uNGdWHi.png" className="image"/>
+                                            <img src={
+                                                require("../../assets/img/theme/carwash.jpg")
+                                                    .default
+                                                } className="image"/>
                                         </div>
                                     </div>
                                 </div>
                                 <div className="col-lg-6">
                                     <div className="card2 card border-0 px-4 py-5">
                                         <div className="row px-3 justify-content-center mt-4 mb-5 border-line">
-                                            <img src={baseURL+"files/images/company_logo/google.jpg"} className="image_com_logo"/>
+                                            {/* <img src={baseURL+"files/images/company_logo/google.jpg"} className="image_com_logo"/> */}
+                                            <img src={
+                                                    require("../../assets/img/theme/logo.jpg")
+                                                        .default
+                                                    } className="image_com_logo"/>
                                         </div>
                                         <div className="row px-3 justify-content-center mt-4 mb-5 border-line">
                                             <button onClick={(e) => this.setState({part_1_modal: true})} className="btn btn-blue text-center col-12">Buat Pesanan</button>

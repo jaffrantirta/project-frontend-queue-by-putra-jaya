@@ -1,28 +1,7 @@
-/*!
-
-=========================================================
-* Argon Dashboard React - v1.2.1
-=========================================================
-
-* Product Page: https://www.creative-tim.com/product/argon-dashboard-react
-* Copyright 2021 Creative Tim (https://www.creative-tim.com)
-* Licensed under MIT (https://github.com/creativetimofficial/argon-dashboard-react/blob/master/LICENSE.md)
-
-* Coded by Creative Tim
-
-=========================================================
-
-* The above copyright notice and this permission notice shall be included in all copies or substantial portions of the Software.
-
-*/
-import { useState } from "react";
-// node.js library that concatenates classes (strings)
+import React, { Component } from "react";
 import classnames from "classnames";
-// javascipt plugin for creating charts
 import Chart from "chart.js";
-// react plugin used to create charts
-import { Line, Bar } from "react-chartjs-2";
-// reactstrap components
+import { Line, Bar, Pie  } from "react-chartjs-2";
 import {
   Button,
   Card,
@@ -36,422 +15,369 @@ import {
   Container,
   Row,
   Col,
-  // CardTitle,
+  CardTitle,
 } from "reactstrap";
-
-// core components
 import {
   chartOptions,
   parseOptions,
   chartExample1,
   chartExample2,
 } from "variables/charts.js";
-
+import { MDBContainer } from "mdbreact";
 import Header from "components/Headers/Header.js";
+import { baseURL } from "utils/BaseUrl.js";
+import Swal from 'sweetalert2';
+import axios from 'axios';
 
-const Index = (props) => {
-  const [activeNav, setActiveNav] = useState(1);
-  const [chartExample1Data, setChartExample1Data] = useState("data1");
+class ChartsPage extends Component {
+  state = {
+    order_per_week: [],
+    car_type: [],
+    product: [],
+    finish_order: "",
+    
+    barChartOptions: {
+      responsive: true,
+      maintainAspectRatio: false,
+      scales: {
+        xAxes: [
+          {
+            barPercentage: 1,
+            gridLines: {
+              display: true,
+              color: "rgba(0, 0, 0, 0.1)"
+            }
+          }
+        ],
+        yAxes: [
+          {
+            gridLines: {
+              display: true,
+              color: "rgba(0, 0, 0, 0.1)"
+            },
+            ticks: {
+              beginAtZero: true
+            }
+          }
+        ]
+      }
+    },
+  };
 
-  if (window.Chart) {
-    parseOptions(Chart, chartOptions());
+  getData(){
+    // console.log(this.state.page);
+    Swal.fire({
+        title: 'Memuat',
+        allowOutsideClick: false,
+        showConfirmButton: false
+    })
+    axios.get(baseURL+'api/statistic', {
+        headers: {
+            Authorization: 'Bearer ' + JSON.parse(localStorage.getItem('data')).token
+        }
+    })
+    .then(response => {
+        // console.log(JSON.stringify(data_json.statistic.order_per_week.lebels));
+        var all_data = JSON.stringify(response.data);
+        var data_json = JSON.parse(all_data);
+        // console.log(JSON.stringify(data_json.statistic.order_per_week.lebels));
+        this.setState({
+          dataOrderPerWeek: {
+            labels: data_json.statistic.order_per_week.lebels,
+            datasets: [
+              {
+                label: "Pesanan Selesai",
+                fill: true,
+                lineTension: 0.3,
+                backgroundColor: "rgba(225, 204,230, .3)",
+                borderColor: "rgb(205, 130, 158)",
+                borderCapStyle: "butt",
+                borderDash: [],
+                borderDashOffset: 0.0,
+                borderJoinStyle: "miter",
+                pointBorderColor: "rgb(205, 130,1 58)",
+                pointBackgroundColor: "rgb(255, 255, 255)",
+                pointBorderWidth: 10,
+                pointHoverRadius: 5,
+                pointHoverBackgroundColor: "rgb(0, 0, 0)",
+                pointHoverBorderColor: "rgba(220, 220, 220,1)",
+                pointHoverBorderWidth: 2,
+                pointRadius: 1,
+                pointHitRadius: 10,
+                data: data_json.statistic.order_per_week.data,
+              }
+            ]
+          },
+          dataCarType: {
+            labels: data_json.statistic.car_type.lebels,
+            datasets: [
+              {
+                label: "ss",
+                data: data_json.statistic.car_type.data,
+                backgroundColor: [
+                  "rgba(255, 134,159,0.4)",
+                  "rgba(98,  182, 239,0.4)",
+                  "rgba(255, 218, 128,0.4)",
+                  "rgba(113, 205, 205,0.4)",
+                  "rgba(170, 128, 252,0.4)",
+                  "rgba(255, 177, 101,0.4)"
+                ],
+                borderWidth: 2,
+                borderColor: [
+                  "rgba(255, 134, 159, 1)",
+                  "rgba(98,  182, 239, 1)",
+                  "rgba(255, 218, 128, 1)",
+                  "rgba(113, 205, 205, 1)",
+                  "rgba(170, 128, 252, 1)",
+                  "rgba(255, 177, 101, 1)"
+                ]
+              }
+            ]
+          },
+          dataProduct: {
+            labels: data_json.statistic.product.lebels,
+            datasets: [
+              {
+                data: data_json.statistic.product.data,
+                backgroundColor: [
+                  "#F7464A",
+                  "#46BFBD",
+                  "#FDB45C",
+                  "#949FB1",
+                  "#4D5360",
+                  "#AC64AD"
+                ],
+                hoverBackgroundColor: [
+                  "#FF5A5E",
+                  "#5AD3D1",
+                  "#FFC870",
+                  "#A8B3C5",
+                  "#616774",
+                  "#DA92DB"
+                ]
+              }
+            ]
+          }
+        })
+        Swal.close()
+    })
+    .catch(error => {
+        // console.log(error)
+        Swal.close()
+        Swal.fire({
+            title: 'Oops! Sepertinya ada yang salah',
+            text: error,
+            icon: 'error'
+          })
+    })
   }
 
-  const toggleNavs = (e, index) => {
-    e.preventDefault();
-    setActiveNav(index);
-    setChartExample1Data("data" + index);
-  };
+  componentDidMount(){
+    this.getData()
+  }
+
+  render() {
+    return (
+      <>
+        <Header />
+        {/* Page content */}
+        <Container className="mt--7" fluid>
+              {/* <Row>
+                <Col lg="6" xl="3">
+                  <Card className="card-stats mb-4 mb-xl-0">
+                    <CardBody>
+                      <Row>
+                        <div className="col">
+                          <CardTitle
+                            tag="h5"
+                            className="text-uppercase text-muted mb-0"
+                          >
+                            Traffic
+                          </CardTitle>
+                          <span className="h2 font-weight-bold mb-0">
+                            350,897
+                          </span>
+                        </div>
+                        <Col className="col-auto">
+                          <div className="icon icon-shape bg-danger text-white rounded-circle shadow">
+                            <i className="fas fa-chart-bar" />
+                          </div>
+                        </Col>
+                      </Row>
+                      <p className="mt-3 mb-0 text-muted text-sm">
+                        <span className="text-success mr-2">
+                          <i className="fa fa-arrow-up" /> 3.48%
+                        </span>{" "}
+                        <span className="text-nowrap">Since last month</span>
+                      </p>
+                    </CardBody>
+                  </Card>
+                </Col>
+                <Col lg="6" xl="3">
+                  <Card className="card-stats mb-4 mb-xl-0">
+                    <CardBody>
+                      <Row>
+                        <div className="col">
+                          <CardTitle
+                            tag="h5"
+                            className="text-uppercase text-muted mb-0"
+                          >
+                            New users
+                          </CardTitle>
+                          <span className="h2 font-weight-bold mb-0">2,356</span>
+                        </div>
+                        <Col className="col-auto">
+                          <div className="icon icon-shape bg-warning text-white rounded-circle shadow">
+                            <i className="fas fa-chart-pie" />
+                          </div>
+                        </Col>
+                      </Row>
+                      <p className="mt-3 mb-0 text-muted text-sm">
+                        <span className="text-danger mr-2">
+                          <i className="fas fa-arrow-down" /> 3.48%
+                        </span>{" "}
+                        <span className="text-nowrap">Since last week</span>
+                      </p>
+                    </CardBody>
+                  </Card>
+                </Col>
+                <Col lg="6" xl="3">
+                  <Card className="card-stats mb-4 mb-xl-0">
+                    <CardBody>
+                      <Row>
+                        <div className="col">
+                          <CardTitle
+                            tag="h5"
+                            className="text-uppercase text-muted mb-0"
+                          >
+                            Sales
+                          </CardTitle>
+                          <span className="h2 font-weight-bold mb-0">924</span>
+                        </div>
+                        <Col className="col-auto">
+                          <div className="icon icon-shape bg-yellow text-white rounded-circle shadow">
+                            <i className="fas fa-users" />
+                          </div>
+                        </Col>
+                      </Row>
+                      <p className="mt-3 mb-0 text-muted text-sm">
+                        <span className="text-warning mr-2">
+                          <i className="fas fa-arrow-down" /> 1.10%
+                        </span>{" "}
+                        <span className="text-nowrap">Since yesterday</span>
+                      </p>
+                    </CardBody>
+                  </Card>
+                </Col>
+                <Col lg="6" xl="3">
+                  <Card className="card-stats mb-4 mb-xl-0">
+                    <CardBody>
+                      <Row>
+                        <div className="col">
+                          <CardTitle
+                            tag="h5"
+                            className="text-uppercase text-muted mb-0"
+                          >
+                            Performance
+                          </CardTitle>
+                          <span className="h2 font-weight-bold mb-0">49,65%</span>
+                        </div>
+                        <Col className="col-auto">
+                          <div className="icon icon-shape bg-info text-white rounded-circle shadow">
+                            <i className="fas fa-percent" />
+                          </div>
+                        </Col>
+                      </Row>
+                      <p className="mt-3 mb-0 text-muted text-sm">
+                        <span className="text-success mr-2">
+                          <i className="fas fa-arrow-up" /> 12%
+                        </span>{" "}
+                        <span className="text-nowrap">Since last month</span>
+                      </p>
+                    </CardBody>
+                  </Card>
+                </Col>
+              </Row> */}
   
-  return (
-    <>
-      <Header />
-      {/* Page content */}
-      <Container className="mt--7" fluid>
-            {/* <Row>
-              <Col lg="6" xl="3">
-                <Card className="card-stats mb-4 mb-xl-0">
-                  <CardBody>
-                    <Row>
-                      <div className="col">
-                        <CardTitle
-                          tag="h5"
-                          className="text-uppercase text-muted mb-0"
-                        >
-                          Traffic
-                        </CardTitle>
-                        <span className="h2 font-weight-bold mb-0">
-                          350,897
-                        </span>
-                      </div>
-                      <Col className="col-auto">
-                        <div className="icon icon-shape bg-danger text-white rounded-circle shadow">
-                          <i className="fas fa-chart-bar" />
-                        </div>
-                      </Col>
-                    </Row>
-                    <p className="mt-3 mb-0 text-muted text-sm">
-                      <span className="text-success mr-2">
-                        <i className="fa fa-arrow-up" /> 3.48%
-                      </span>{" "}
-                      <span className="text-nowrap">Since last month</span>
-                    </p>
-                  </CardBody>
-                </Card>
-              </Col>
-              <Col lg="6" xl="3">
-                <Card className="card-stats mb-4 mb-xl-0">
-                  <CardBody>
-                    <Row>
-                      <div className="col">
-                        <CardTitle
-                          tag="h5"
-                          className="text-uppercase text-muted mb-0"
-                        >
-                          New users
-                        </CardTitle>
-                        <span className="h2 font-weight-bold mb-0">2,356</span>
-                      </div>
-                      <Col className="col-auto">
-                        <div className="icon icon-shape bg-warning text-white rounded-circle shadow">
-                          <i className="fas fa-chart-pie" />
-                        </div>
-                      </Col>
-                    </Row>
-                    <p className="mt-3 mb-0 text-muted text-sm">
-                      <span className="text-danger mr-2">
-                        <i className="fas fa-arrow-down" /> 3.48%
-                      </span>{" "}
-                      <span className="text-nowrap">Since last week</span>
-                    </p>
-                  </CardBody>
-                </Card>
-              </Col>
-              <Col lg="6" xl="3">
-                <Card className="card-stats mb-4 mb-xl-0">
-                  <CardBody>
-                    <Row>
-                      <div className="col">
-                        <CardTitle
-                          tag="h5"
-                          className="text-uppercase text-muted mb-0"
-                        >
-                          Sales
-                        </CardTitle>
-                        <span className="h2 font-weight-bold mb-0">924</span>
-                      </div>
-                      <Col className="col-auto">
-                        <div className="icon icon-shape bg-yellow text-white rounded-circle shadow">
-                          <i className="fas fa-users" />
-                        </div>
-                      </Col>
-                    </Row>
-                    <p className="mt-3 mb-0 text-muted text-sm">
-                      <span className="text-warning mr-2">
-                        <i className="fas fa-arrow-down" /> 1.10%
-                      </span>{" "}
-                      <span className="text-nowrap">Since yesterday</span>
-                    </p>
-                  </CardBody>
-                </Card>
-              </Col>
-              <Col lg="6" xl="3">
-                <Card className="card-stats mb-4 mb-xl-0">
-                  <CardBody>
-                    <Row>
-                      <div className="col">
-                        <CardTitle
-                          tag="h5"
-                          className="text-uppercase text-muted mb-0"
-                        >
-                          Performance
-                        </CardTitle>
-                        <span className="h2 font-weight-bold mb-0">49,65%</span>
-                      </div>
-                      <Col className="col-auto">
-                        <div className="icon icon-shape bg-info text-white rounded-circle shadow">
-                          <i className="fas fa-percent" />
-                        </div>
-                      </Col>
-                    </Row>
-                    <p className="mt-3 mb-0 text-muted text-sm">
-                      <span className="text-success mr-2">
-                        <i className="fas fa-arrow-up" /> 12%
-                      </span>{" "}
-                      <span className="text-nowrap">Since last month</span>
-                    </p>
-                  </CardBody>
-                </Card>
-              </Col>
-            </Row> */}
+          <Row>
+            <Col className="mb-5 mb-xl-0" xl="12">
+              <Card className="bg-gradient-default shadow">
+                <CardHeader className="bg-transparent">
+                  <Row className="align-items-center">
+                    <div className="col">
+                      <h6 className="text-uppercase text-light ls-1 mb-1">
+                        Overview
+                      </h6>
+                      <h2 className="text-white mb-0">Pesanan Selesai Minggu Ini</h2>
+                    </div>
+                  </Row>
+                </CardHeader>
+                <CardBody>
+                <Line data={this.state.dataOrderPerWeek} options={{ responsive: true }} />
+                </CardBody>
+              </Card>
+            </Col>
+          </Row>
 
-        <Row>
-          <Col className="mb-5 mb-xl-0" xl="8">
-            <Card className="bg-gradient-default shadow">
-              <CardHeader className="bg-transparent">
-                <Row className="align-items-center">
-                  <div className="col">
-                    <h6 className="text-uppercase text-light ls-1 mb-1">
-                      Overview
-                    </h6>
-                    <h2 className="text-white mb-0">Sales value</h2>
-                  </div>
-                  <div className="col">
-                    <Nav className="justify-content-end" pills>
-                      <NavItem>
-                        <NavLink
-                          className={classnames("py-2 px-3", {
-                            active: activeNav === 1,
-                          })}
-                          href="#pablo"
-                          onClick={(e) => toggleNavs(e, 1)}
-                        >
-                          <span className="d-none d-md-block">Month</span>
-                          <span className="d-md-none">M</span>
-                        </NavLink>
-                      </NavItem>
-                      <NavItem>
-                        <NavLink
-                          className={classnames("py-2 px-3", {
-                            active: activeNav === 2,
-                          })}
-                          data-toggle="tab"
-                          href="#pablo"
-                          onClick={(e) => toggleNavs(e, 2)}
-                        >
-                          <span className="d-none d-md-block">Week</span>
-                          <span className="d-md-none">W</span>
-                        </NavLink>
-                      </NavItem>
-                    </Nav>
-                  </div>
-                </Row>
-              </CardHeader>
-              <CardBody>
-                {/* Chart */}
-                <div className="chart">
-                  <Line
-                    data={chartExample1[chartExample1Data]}
-                    options={chartExample1.options}
-                    getDatasetAtEvent={(e) => console.log(e)}
-                  />
-                </div>
-              </CardBody>
-            </Card>
-          </Col>
-          <Col xl="4">
-            <Card className="shadow">
-              <CardHeader className="bg-transparent">
-                <Row className="align-items-center">
-                  <div className="col">
-                    <h6 className="text-uppercase text-muted ls-1 mb-1">
-                      Performance
-                    </h6>
-                    <h2 className="mb-0">Total orders</h2>
-                  </div>
-                </Row>
-              </CardHeader>
-              <CardBody>
-                {/* Chart */}
-                <div className="chart">
-                  <Bar
-                    data={chartExample2.data}
-                    options={chartExample2.options}
-                  />
-                </div>
-              </CardBody>
-            </Card>
-          </Col>
-        </Row>
-        <Row className="mt-5">
-          <Col className="mb-5 mb-xl-0" xl="8">
-            <Card className="shadow">
-              <CardHeader className="border-0">
-                <Row className="align-items-center">
-                  <div className="col">
-                    <h3 className="mb-0">Page visits</h3>
-                  </div>
-                  <div className="col text-right">
-                    <Button
-                      color="primary"
-                      href="#pablo"
-                      onClick={(e) => e.preventDefault()}
-                      size="sm"
-                    >
-                      See all
-                    </Button>
-                  </div>
-                </Row>
-              </CardHeader>
-              <Table className="align-items-center table-flush" responsive>
-                <thead className="thead-light">
-                  <tr>
-                    <th scope="col">Page name</th>
-                    <th scope="col">Visitors</th>
-                    <th scope="col">Unique users</th>
-                    <th scope="col">Bounce rate</th>
-                  </tr>
-                </thead>
-                <tbody>
-                  <tr>
-                    <th scope="row">/argon/</th>
-                    <td>4,569</td>
-                    <td>340</td>
-                    <td>
-                      <i className="fas fa-arrow-up text-success mr-3" /> 46,53%
-                    </td>
-                  </tr>
-                  <tr>
-                    <th scope="row">/argon/index.html</th>
-                    <td>3,985</td>
-                    <td>319</td>
-                    <td>
-                      <i className="fas fa-arrow-down text-warning mr-3" />{" "}
-                      46,53%
-                    </td>
-                  </tr>
-                  <tr>
-                    <th scope="row">/argon/charts.html</th>
-                    <td>3,513</td>
-                    <td>294</td>
-                    <td>
-                      <i className="fas fa-arrow-down text-warning mr-3" />{" "}
-                      36,49%
-                    </td>
-                  </tr>
-                  <tr>
-                    <th scope="row">/argon/tables.html</th>
-                    <td>2,050</td>
-                    <td>147</td>
-                    <td>
-                      <i className="fas fa-arrow-up text-success mr-3" /> 50,87%
-                    </td>
-                  </tr>
-                  <tr>
-                    <th scope="row">/argon/profile.html</th>
-                    <td>1,795</td>
-                    <td>190</td>
-                    <td>
-                      <i className="fas fa-arrow-down text-danger mr-3" />{" "}
-                      46,53%
-                    </td>
-                  </tr>
-                </tbody>
-              </Table>
-            </Card>
-          </Col>
-          <Col xl="4">
-            <Card className="shadow">
-              <CardHeader className="border-0">
-                <Row className="align-items-center">
-                  <div className="col">
-                    <h3 className="mb-0">Social traffic</h3>
-                  </div>
-                  <div className="col text-right">
-                    <Button
-                      color="primary"
-                      href="#pablo"
-                      onClick={(e) => e.preventDefault()}
-                      size="sm"
-                    >
-                      See all
-                    </Button>
-                  </div>
-                </Row>
-              </CardHeader>
-              <Table className="align-items-center table-flush" responsive>
-                <thead className="thead-light">
-                  <tr>
-                    <th scope="col">Referral</th>
-                    <th scope="col">Visitors</th>
-                    <th scope="col" />
-                  </tr>
-                </thead>
-                <tbody>
-                  <tr>
-                    <th scope="row">Facebook</th>
-                    <td>1,480</td>
-                    <td>
-                      <div className="d-flex align-items-center">
-                        <span className="mr-2">60%</span>
-                        <div>
-                          <Progress
-                            max="100"
-                            value="60"
-                            barClassName="bg-gradient-danger"
-                          />
-                        </div>
-                      </div>
-                    </td>
-                  </tr>
-                  <tr>
-                    <th scope="row">Facebook</th>
-                    <td>5,480</td>
-                    <td>
-                      <div className="d-flex align-items-center">
-                        <span className="mr-2">70%</span>
-                        <div>
-                          <Progress
-                            max="100"
-                            value="70"
-                            barClassName="bg-gradient-success"
-                          />
-                        </div>
-                      </div>
-                    </td>
-                  </tr>
-                  <tr>
-                    <th scope="row">Google</th>
-                    <td>4,807</td>
-                    <td>
-                      <div className="d-flex align-items-center">
-                        <span className="mr-2">80%</span>
-                        <div>
-                          <Progress max="100" value="80" />
-                        </div>
-                      </div>
-                    </td>
-                  </tr>
-                  <tr>
-                    <th scope="row">Instagram</th>
-                    <td>3,678</td>
-                    <td>
-                      <div className="d-flex align-items-center">
-                        <span className="mr-2">75%</span>
-                        <div>
-                          <Progress
-                            max="100"
-                            value="75"
-                            barClassName="bg-gradient-info"
-                          />
-                        </div>
-                      </div>
-                    </td>
-                  </tr>
-                  <tr>
-                    <th scope="row">twitter</th>
-                    <td>2,645</td>
-                    <td>
-                      <div className="d-flex align-items-center">
-                        <span className="mr-2">30%</span>
-                        <div>
-                          <Progress
-                            max="100"
-                            value="30"
-                            barClassName="bg-gradient-warning"
-                          />
-                        </div>
-                      </div>
-                    </td>
-                  </tr>
-                </tbody>
-              </Table>
-            </Card>
-          </Col>
-        </Row>
-      </Container>
-    </>
-  );
-};
+          <Row style={{marginTop: 20}}>
+            <Col className="mb-5 mb-xl-0" xl="6">
+              <Card className="bg-gradient-default shadow">
+                <CardHeader className="bg-transparent">
+                  <Row className="align-items-center">
+                    <div className="col">
+                      <h6 className="text-uppercase text-light ls-1 mb-1">
+                        Produk  hari ini
+                      </h6>
+                      {/* <h2 className="text-white mb-0">Pesanan minggu ini</h2> */}
+                    </div>
+                  </Row>
+                </CardHeader>
+                <CardBody>
+                  <Pie  data={this.state.dataProduct} options={{ responsive: true }} />
+                </CardBody>
+              </Card>
+            </Col>
+            <Col className="mb-5 mb-xl-0" xl="6">
+              <Card className="bg-gradient-default shadow">
+                <CardHeader className="bg-transparent">
+                  <Row className="align-items-center">
+                    <div className="col">
+                      <h6 className="text-uppercase text-light ls-1 mb-1">
+                        Tipe Kendaraan hari ini
+                      </h6>
+                      {/* <h2 className="text-white mb-0">Pesanan minggu ini</h2> */}
+                    </div>
+                  </Row>
+                </CardHeader>
+                <CardBody>
+                  <Pie  data={this.state.dataCarType} options={{ responsive: true }} />
+                </CardBody>
+              </Card>
+            </Col>
+          </Row>
+          
+        </Container>
+      </>
+    );
+  }
+}
 
-export default Index;
+export default ChartsPage;
+// const Index = (props) => {
+//   const [activeNav, setActiveNav] = useState(1);
+//   const [chartExample1Data, setChartExample1Data] = useState("data1");
+
+//   if (window.Chart) {
+//     parseOptions(Chart, chartOptions());
+//   }
+
+//   const toggleNavs = (e, index) => {
+//     e.preventDefault();
+//     setActiveNav(index);
+//     setChartExample1Data("data" + index);
+//   };
+  
+
+// };
+
+// export default Index;
