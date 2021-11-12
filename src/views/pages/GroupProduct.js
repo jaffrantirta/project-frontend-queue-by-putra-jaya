@@ -168,7 +168,7 @@ import {
                 }
             })
             .then(response => {
-                console.log(JSON.stringify(response.data));
+                // console.log(JSON.stringify(response.data));
                 var string = JSON.stringify(response.data);
                 var res = JSON.parse(string);
                 Swal.close();

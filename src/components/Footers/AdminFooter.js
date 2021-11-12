@@ -20,33 +20,39 @@
 // reactstrap components
 import { Container, Row, Col, Nav, NavItem, NavLink } from "reactstrap";
 
+const style = {
+  marginTop: 20,
+  marginBottom: 20,
+  borderRadius: 20,
+  padding: 10
+}
 const Footer = () => {
   return (
-    <footer className="footer">
+    <footer style={style} className="footer">
       <Row className="align-items-center justify-content-xl-between">
         <Col xl="6">
           <div className="copyright text-center text-xl-left text-muted">
             © {new Date().getFullYear()}{" "}
             <a
               className="font-weight-bold ml-1"
-              href="https://www.creative-tim.com?ref=adr-admin-footer"
+              href="https://franweb.my.id"
               rel="noopener noreferrer"
               target="_blank"
             >
-              Creative Tim
+              Franweb
             </a>
           </div>
         </Col>
 
         <Col xl="6">
-          <Nav className="nav-footer justify-content-center justify-content-xl-end">
+          {/* <Nav className="nav-footer justify-content-center justify-content-xl-end">
             <NavItem>
               <NavLink
                 href="https://www.creative-tim.com?ref=adr-admin-footer"
                 rel="noopener noreferrer"
                 target="_blank"
               >
-                Creative Tim
+                Fr
               </NavLink>
             </NavItem>
 
@@ -79,7 +85,7 @@ const Footer = () => {
                 MIT License
               </NavLink>
             </NavItem>
-          </Nav>
+          </Nav> */}
         </Col>
       </Row>
     </footer>

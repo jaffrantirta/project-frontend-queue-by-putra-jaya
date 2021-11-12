@@ -28,7 +28,7 @@ export default class javascriptMap extends Component {
       };
   }
   logout(){
-    console.log('halo');
+    // console.log('halo');
     Swal.fire({
       title: 'Yakin keluar ?',
       showCancelButton: true,

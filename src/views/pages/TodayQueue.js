@@ -231,7 +231,7 @@ import {
                 }
             })
             .then(response => {
-                console.log(JSON.stringify(response.data));
+                // console.log(JSON.stringify(response.data));
                 var string = JSON.stringify(response.data);
                 var res = JSON.parse(string);
                 Swal.fire({
@@ -244,7 +244,7 @@ import {
                 })
             })
             .catch(error => {
-                console.log(error);
+                // console.log(error);
                 Swal.fire({
                     title: 'Oops! Sepertinya ada yang salah',
                     icon: 'error'

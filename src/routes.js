@@ -17,7 +17,7 @@ import Tables from "views/pages/Tables.js";
 // import Icons from "views/pages/Icons.js";
 
 if(JSON.parse(localStorage.getItem('is_logged_in'))){
-  if(JSON.parse(localStorage.getItem('data')).user.role_id === 1){
+  if(JSON.parse(localStorage.getItem('data')).user.role_id === "1"){
     var routes = [
       {
         path: "/dashboard",

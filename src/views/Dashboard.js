@@ -77,7 +77,7 @@ class ChartsPage extends Component {
         }
     })
     .then(response => {
-        // console.log(JSON.stringify(data_json.statistic.order_per_week.lebels));
+        console.log(localStorage.getItem('data'));
         var all_data = JSON.stringify(response.data);
         var data_json = JSON.parse(all_data);
         // console.log(JSON.stringify(data_json.statistic.order_per_week.lebels));

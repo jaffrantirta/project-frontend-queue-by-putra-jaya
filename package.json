@@ -22,7 +22,7 @@
   "bugs": {
     "url": "https://github.com/creativetimofficial/argon-dashboard-react/issues"
   },
-  "homepage": "https://wash.postore.my.id",
+  "homepage": "https://wash.postore.my.id/",
   "scripts": {
     "start": "react-scripts start",
     "build": "react-scripts build",

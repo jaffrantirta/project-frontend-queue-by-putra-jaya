@@ -123,10 +123,10 @@ import {
                 Swal.close()
             })
             .catch(error => {
-                // console.log(error)
-                Swal.close()
+                // console.log(error.response.data.response.message.indonesia);
                 Swal.fire({
                     title: 'Oops! Sepertinya ada yang salah',
+                    text: error.response.data.response.message.indonesia,
                     icon: 'error'
                   })
             })
@@ -178,7 +178,7 @@ import {
             }
         }
         getProduct(gp_id, gp_name){
-            console.log(gp_id+" and "+gp_name);
+            // console.log(gp_id+" and "+gp_name);
             this.setState({
                 group_product_id: gp_id,
                 group_product_name: gp_name,
